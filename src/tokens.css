@@ -1,0 +1,13 @@
+:root {
+  --font: 'Manrope', sans-serif;
+  --bg: #171713;
+  --surface: #24241e;
+  --raised: #303028;
+  --bronze: #b68a4d;
+  --bronze-light: #d3b17c;
+  --text: #e9e2d3;
+  --muted: #a7a798;
+  --border: #38382e;
+  --focus: #d3b17c;
+  color-scheme: dark;
+}

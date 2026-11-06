@@ -1,0 +1,54 @@
+{
+  "running.jpg": {
+    "origin": "https://images.unsplash.com/photo-1552674605-db6ffd4facb5",
+    "use": "Illustrative stock; not the real demo user or community."
+  },
+  "pottery.jpg": {
+    "origin": "https://images.unsplash.com/photo-1609881582722-4a8ab7cd54d8",
+    "use": "Illustrative stock; not the real demo user or community."
+  },
+  "trail.jpg": {
+    "origin": "https://images.unsplash.com/photo-1551632811-561732d1e306",
+    "use": "Illustrative stock; not the real demo user or community."
+  },
+  "table.jpg": {
+    "origin": "https://images.unsplash.com/photo-1511795409834-ef04bbd61622",
+    "use": "Illustrative stock; not the real demo user or community."
+  },
+  "yoga.jpg": {
+    "origin": "https://images.unsplash.com/photo-1506126613408-eca07ce68773",
+    "use": "Illustrative stock; not the real demo user or community."
+  },
+  "city.jpg": {
+    "origin": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab",
+    "use": "Illustrative stock; not the real demo user or community."
+  },
+  "rafael.jpg": {
+    "origin": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
+    "use": "Illustrative stock; not the real demo user or community."
+  },
+  "marina.jpg": {
+    "origin": "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
+    "use": "Illustrative stock; not the real demo user or community."
+  },
+  "pedro.jpg": {
+    "origin": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d",
+    "use": "Illustrative stock; not the real demo user or community."
+  },
+  "medallion.jpg": {
+    "origin": "OpenAI built-in image generation",
+    "prompt": "Create a premium historical material asset for the Mannerbund community app. A horizontal museum-quality photograph of an ancient bronze medallion lying on charcoal dark basalt stone. On the medallion, an embossed stylized running figure beneath a rising sun, a subtle olive-leaf border with authentic weathering and green patina. The single medallion is centered, full object visible, fills about 75% of image height, wide 3:2 composition. Realistic sculptural aged bronze, deep carved relief, dramatic soft natural side light, rich brown-gold and muted green oxidation, museum artifact photographed by an art director. Background near-black #171713. No text, no letters, no writing, no heraldic eagle, no militaristic insignia. This is artwork for a collectible event attendance trophy, polished restrained ancient material identity. Make one image only."
+  },
+  "medallion.png": {
+    "origin": "OpenAI built-in image generation",
+    "prompt": "Create a premium historical material asset for the Mannerbund community app. A horizontal museum-quality photograph of an ancient bronze medallion lying on charcoal dark basalt stone. On the medallion, an embossed stylized running figure beneath a rising sun, a subtle olive-leaf border with authentic weathering and green patina. The single medallion is centered, full object visible, fills about 75% of image height, wide 3:2 composition. Realistic sculptural aged bronze, deep carved relief, dramatic soft natural side light, rich brown-gold and muted green oxidation, museum artifact photographed by an art director. Background near-black #171713. No text, no letters, no writing, no heraldic eagle, no militaristic insignia. This is artwork for a collectible event attendance trophy, polished restrained ancient material identity. Make one image only."
+  },
+  "medallion-ceramic.jpg": {
+    "origin": "OpenAI built-in image generation",
+    "prompt": "Museum photograph of a single ancient aged bronze circular medallion on dark charcoal basalt stone, premium collectible event trophy for a community ceramic workshop. Embossed bronze relief depicts two hands shaping a simple amphora-like clay vessel on a wheel; a delicate neutral botanical olive border, authentic green patina, warm bronze gold, no text or writing or letters, no eagle, no military motif. Match a restrained historical artifact identity: realistic weight, deep carved relief, rich tactile surface, elegant soft side lighting, background near #171713. Landscape 3:2 composition, full medallion centered, fills 75 percent of image height. One image."
+  },
+  "medallion-trail.jpg": {
+    "origin": "OpenAI built-in image generation",
+    "prompt": "Museum photograph of a single ancient aged bronze circular medallion on dark charcoal basalt stone, premium collectible trophy for a community walking event. Embossed bronze relief depicts a winding footpath between two mountain peaks toward a low sun, botanical olive border with fine weathering and green patina, warm bronze gold. No text or writing or letters, no eagle or military motif. Restrained historical artifact identity: realistic weight, deep carved relief, rich tactile surface, elegant soft side lighting, background near #171713. Landscape 3:2 composition, full medallion centered, fills 75 percent of image height. One image."
+  }
+}

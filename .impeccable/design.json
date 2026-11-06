@@ -1,0 +1,387 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-06T18:43:43.599568+00:00",
+  "title": "Design System: Mannerbund",
+  "extensions": {
+    "colorMeta": {
+      "bg": {
+        "role": "neutral",
+        "displayName": "Basalt",
+        "canonical": "#171713",
+        "tonalRamp": [
+          "oklch(15.0% 0.0015 107.1)",
+          "oklch(26.0% 0.0039 107.1)",
+          "oklch(38.0% 0.0062 107.1)",
+          "oklch(49.0% 0.0077 107.1)",
+          "oklch(61.0% 0.0077 107.1)",
+          "oklch(72.0% 0.0062 107.1)",
+          "oklch(84.0% 0.0039 107.1)",
+          "oklch(95.0% 0.0012 107.1)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Raised Stone",
+        "canonical": "#24241e",
+        "tonalRamp": [
+          "oklch(15.0% 0.0022 107.1)",
+          "oklch(26.0% 0.0054 107.1)",
+          "oklch(38.0% 0.0087 107.1)",
+          "oklch(49.0% 0.0109 107.1)",
+          "oklch(61.0% 0.0109 107.1)",
+          "oklch(72.0% 0.0087 107.1)",
+          "oklch(84.0% 0.0054 107.1)",
+          "oklch(95.0% 0.0016 107.1)"
+        ]
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "Lifted Stone",
+        "canonical": "#303028",
+        "tonalRamp": [
+          "oklch(15.0% 0.0028 107.2)",
+          "oklch(26.0% 0.0070 107.2)",
+          "oklch(38.0% 0.0111 107.2)",
+          "oklch(49.0% 0.0139 107.2)",
+          "oklch(61.0% 0.0139 107.2)",
+          "oklch(72.0% 0.0111 107.2)",
+          "oklch(84.0% 0.0070 107.2)",
+          "oklch(95.0% 0.0021 107.2)"
+        ]
+      },
+      "bronze": {
+        "role": "primary",
+        "displayName": "Aged Bronze",
+        "canonical": "#b68a4d",
+        "tonalRamp": [
+          "oklch(15.0% 0.0190 73.9)",
+          "oklch(26.0% 0.0476 73.9)",
+          "oklch(38.0% 0.0761 73.9)",
+          "oklch(49.0% 0.0951 73.9)",
+          "oklch(61.0% 0.0951 73.9)",
+          "oklch(72.0% 0.0761 73.9)",
+          "oklch(84.0% 0.0476 73.9)",
+          "oklch(95.0% 0.0143 73.9)"
+        ]
+      },
+      "bronze-light": {
+        "role": "primary",
+        "displayName": "Light Bronze",
+        "canonical": "#d3b17c",
+        "tonalRamp": [
+          "oklch(15.0% 0.0160 78.3)",
+          "oklch(26.0% 0.0399 78.3)",
+          "oklch(38.0% 0.0639 78.3)",
+          "oklch(49.0% 0.0799 78.3)",
+          "oklch(61.0% 0.0799 78.3)",
+          "oklch(72.0% 0.0639 78.3)",
+          "oklch(84.0% 0.0399 78.3)",
+          "oklch(95.0% 0.0120 78.3)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Warm Parchment",
+        "canonical": "#e9e2d3",
+        "tonalRamp": [
+          "oklch(15.0% 0.0043 85.9)",
+          "oklch(26.0% 0.0107 85.9)",
+          "oklch(38.0% 0.0172 85.9)",
+          "oklch(49.0% 0.0215 85.9)",
+          "oklch(61.0% 0.0215 85.9)",
+          "oklch(72.0% 0.0172 85.9)",
+          "oklch(84.0% 0.0107 85.9)",
+          "oklch(95.0% 0.0032 85.9)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Limestone",
+        "canonical": "#a7a798",
+        "tonalRamp": [
+          "oklch(15.0% 0.0042 106.9)",
+          "oklch(26.0% 0.0106 106.9)",
+          "oklch(38.0% 0.0169 106.9)",
+          "oklch(49.0% 0.0212 106.9)",
+          "oklch(61.0% 0.0212 106.9)",
+          "oklch(72.0% 0.0169 106.9)",
+          "oklch(84.0% 0.0106 106.9)",
+          "oklch(95.0% 0.0032 106.9)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Stone Edge",
+        "canonical": "#38382e",
+        "tonalRamp": [
+          "oklch(15.0% 0.0034 107.3)",
+          "oklch(26.0% 0.0085 107.3)",
+          "oklch(38.0% 0.0135 107.3)",
+          "oklch(49.0% 0.0169 107.3)",
+          "oklch(61.0% 0.0169 107.3)",
+          "oklch(72.0% 0.0135 107.3)",
+          "oklch(84.0% 0.0085 107.3)",
+          "oklch(95.0% 0.0025 107.3)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Light Bronze Focus",
+        "canonical": "#d3b17c",
+        "tonalRamp": [
+          "oklch(15.0% 0.0160 78.3)",
+          "oklch(26.0% 0.0399 78.3)",
+          "oklch(38.0% 0.0639 78.3)",
+          "oklch(49.0% 0.0799 78.3)",
+          "oklch(61.0% 0.0799 78.3)",
+          "oklch(72.0% 0.0639 78.3)",
+          "oklch(84.0% 0.0399 78.3)",
+          "oklch(95.0% 0.0120 78.3)"
+        ]
+      },
+      "map-canvas": {
+        "role": "neutral",
+        "displayName": "Cartographic Ground",
+        "canonical": "#1b211d",
+        "tonalRamp": [
+          "oklch(15.0% 0.0023 156.2)",
+          "oklch(26.0% 0.0058 156.2)",
+          "oklch(38.0% 0.0093 156.2)",
+          "oklch(49.0% 0.0116 156.2)",
+          "oklch(61.0% 0.0116 156.2)",
+          "oklch(72.0% 0.0093 156.2)",
+          "oklch(84.0% 0.0058 156.2)",
+          "oklch(95.0% 0.0017 156.2)"
+        ]
+      },
+      "territory-panel": {
+        "role": "neutral",
+        "displayName": "Territory Stone",
+        "canonical": "#1d1d18",
+        "tonalRamp": [
+          "oklch(15.0% 0.0019 107.1)",
+          "oklch(26.0% 0.0047 107.1)",
+          "oklch(38.0% 0.0075 107.1)",
+          "oklch(49.0% 0.0094 107.1)",
+          "oklch(61.0% 0.0094 107.1)",
+          "oklch(72.0% 0.0075 107.1)",
+          "oklch(84.0% 0.0047 107.1)",
+          "oklch(95.0% 0.0014 107.1)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Base h1; page/map sizes vary with composition and width."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Component headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default application text."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Essential map metadata and compact supporting text."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Shared primary, secondary, ghost and danger controls."
+      }
+    },
+    "shadows": [
+      {
+        "name": "map-medallion",
+        "value": "0 3px 8px #0005",
+        "purpose": "Separate map ownership medallions from cartography."
+      },
+      {
+        "name": "toast",
+        "value": "0 8px 30px #0004",
+        "purpose": "Floating feedback."
+      },
+      {
+        "name": "demo-panel",
+        "value": "0 14px 60px #0008",
+        "purpose": "Floating demo controls."
+      },
+      {
+        "name": "dialog",
+        "value": "0 24px 100px #0009",
+        "purpose": "Modal dialog separation."
+      },
+      {
+        "name": "mobile-territory-panel",
+        "value": "0 -12px 60px #0008",
+        "purpose": "Scrollable mobile territory bottom panel."
+      },
+      {
+        "name": "conquest-moment",
+        "value": "0 12px 45px #0005",
+        "purpose": "Authored conquest feedback."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-transition",
+        "value": "180ms ease",
+        "purpose": "Background, color and border state changes; marker lift is 3px."
+      },
+      {
+        "name": "trophy-hover",
+        "value": "300ms ease",
+        "purpose": "Trophy-image transform."
+      },
+      {
+        "name": "conquest-arrival",
+        "value": "600ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Arrival from translateY(-12px) scale(.97) to rest."
+      },
+      {
+        "name": "selected-point-travel",
+        "value": "900ms",
+        "purpose": "MapLibre flyTo; duration becomes zero for reduced motion."
+      },
+      {
+        "name": "loading-spin",
+        "value": "1000ms linear infinite",
+        "purpose": "Loading spinner; reduced to one near-instant iteration under reduced motion."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms",
+        "purpose": "CSS transition and animation duration; conquest animation and hover transforms are removed."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "700px"
+      },
+      {
+        "name": "tablet",
+        "value": "900px"
+      },
+      {
+        "name": "compact-desktop",
+        "value": "1080px"
+      },
+      {
+        "name": "desktop",
+        "value": "1250px"
+      },
+      {
+        "name": "wide",
+        "value": "1600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Observed shared Button variant; 44px minimum height with visible focus.",
+      "html": "<button class=\"ds-button-primary\" type=\"button\">Participar</button>",
+      "css": ".ds-button-primary{min-height:44px;display:inline-flex;gap:9px;align-items:center;justify-content:center;padding:10px 16px;border:1px solid transparent;border-radius:8px;font-size:13px;font-weight:600;line-height:1.5;white-space:nowrap;cursor:pointer;transition:background .18s,color .18s,border-color .18s;font-family:var(--font,'Manrope',sans-serif);background:var(--bronze,#b68a4d);color:#171713;}.ds-button-primary:hover:not(:disabled){background:#cda36b;}.ds-button-primary:focus-visible{outline:2px solid var(--focus,#d3b17c);outline-offset:4px;}.ds-button-primary:disabled{cursor:not-allowed;opacity:.45;}@media(prefers-reduced-motion:reduce){.ds-button-primary{transition-duration:.01ms;}}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Observed shared Button variant; 44px minimum height with visible focus.",
+      "html": "<button class=\"ds-button-secondary\" type=\"button\">Cancelar</button>",
+      "css": ".ds-button-secondary{min-height:44px;display:inline-flex;gap:9px;align-items:center;justify-content:center;padding:10px 16px;border:1px solid transparent;border-radius:8px;font-size:13px;font-weight:600;line-height:1.5;white-space:nowrap;cursor:pointer;transition:background .18s,color .18s,border-color .18s;font-family:var(--font,'Manrope',sans-serif);background:#2d2d25;border-color:var(--border,#38382e);color:var(--text,#e9e2d3);}.ds-button-secondary:hover:not(:disabled){background:#38382e;border-color:#66614e;}.ds-button-secondary:focus-visible{outline:2px solid var(--focus,#d3b17c);outline-offset:4px;}.ds-button-secondary:disabled{cursor:not-allowed;opacity:.45;}@media(prefers-reduced-motion:reduce){.ds-button-secondary{transition-duration:.01ms;}}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Observed shared Button variant; 44px minimum height with visible focus.",
+      "html": "<button class=\"ds-button-ghost\" type=\"button\">Ver detalhes</button>",
+      "css": ".ds-button-ghost{min-height:44px;display:inline-flex;gap:9px;align-items:center;justify-content:center;padding:10px 16px;border:1px solid transparent;border-radius:8px;font-size:13px;font-weight:600;line-height:1.5;white-space:nowrap;cursor:pointer;transition:background .18s,color .18s,border-color .18s;font-family:var(--font,'Manrope',sans-serif);background:transparent;color:var(--muted,#a7a798);padding-inline:10px;}.ds-button-ghost:hover:not(:disabled){background:var(--surface,#24241e);color:var(--text,#e9e2d3);}.ds-button-ghost:focus-visible{outline:2px solid var(--focus,#d3b17c);outline-offset:4px;}.ds-button-ghost:disabled{cursor:not-allowed;opacity:.45;}@media(prefers-reduced-motion:reduce){.ds-button-ghost{transition-duration:.01ms;}}"
+    },
+    {
+      "name": "Danger Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Observed shared Button variant; 44px minimum height with visible focus.",
+      "html": "<button class=\"ds-button-danger\" type=\"button\">Excluir</button>",
+      "css": ".ds-button-danger{min-height:44px;display:inline-flex;gap:9px;align-items:center;justify-content:center;padding:10px 16px;border:1px solid transparent;border-radius:8px;font-size:13px;font-weight:600;line-height:1.5;white-space:nowrap;cursor:pointer;transition:background .18s,color .18s,border-color .18s;font-family:var(--font,'Manrope',sans-serif);background:#653d37;color:#f7dfd7;}.ds-button-danger:hover:not(:disabled){background:#7c4b43;}.ds-button-danger:focus-visible{outline:2px solid var(--focus,#d3b17c);outline-offset:4px;}.ds-button-danger:disabled{cursor:not-allowed;opacity:.45;}@media(prefers-reduced-motion:reduce){.ds-button-danger{transition-duration:.01ms;}}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "search-field",
+      "description": "Observed search container; an explicit label and group focus retain keyboard clarity.",
+      "html": "<label class=\"ds-search\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><circle cx=\"10.5\" cy=\"10.5\" r=\"6.5\"/><path d=\"m16 16 5 5\"/></svg><input aria-label=\"Buscar comunidades\" placeholder=\"Buscar comunidades\" type=\"search\"/></label>",
+      "css": ".ds-search{display:flex;align-items:center;gap:10px;background:var(--surface,#24241e);padding:0 14px;border:1px solid var(--border,#38382e);border-radius:8px;color:var(--muted,#a7a798);height:44px;min-width:0;max-width:360px;} .ds-search input{font-family:var(--font,'Manrope',sans-serif);margin:0;padding:0;border:0;background:none;outline:none;color:var(--text,#e9e2d3);height:100%;font-size:12px;min-width:0;width:100%;border-radius:0;caret-color:var(--bronze,#b68a4d);} .ds-search input::placeholder{color:#989986;} .ds-search:focus-within{outline:1px solid var(--focus,#d3b17c);outline-offset:2px;} .ds-search input:focus-visible{outline:none;}"
+    },
+    {
+      "name": "Desktop Navigation",
+      "kind": "nav",
+      "refersTo": "navigation-item",
+      "description": "Observed desktop item rhythm, stone hover and bronze active icon.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Navegação principal\"><a class=\"ds-nav-item ds-active\" href=\"#mapa\" aria-current=\"page\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2V5Zm6-2v16m6-14v16\"/></svg>Mapa</a><a class=\"ds-nav-item\" href=\"#comunidades\">Comunidades</a><a class=\"ds-nav-item\" href=\"#conversas\">Conversas</a></nav>",
+      "css": ".ds-nav{display:flex;flex-direction:column;gap:4px;width:184px;} .ds-nav-item{font-family:var(--font,'Manrope',sans-serif);display:flex;align-items:center;gap:13px;min-height:46px;padding:11px 14px;border-radius:8px;color:var(--muted,#a7a798);font-size:13px;line-height:1.6;text-decoration:none;transition:background .18s,color .18s;} .ds-nav-item:hover{color:var(--text,#e9e2d3);background:#20201a;} .ds-nav-item.ds-active{background:#2b2a22;color:var(--text,#e9e2d3);} .ds-nav-item.ds-active>svg{color:var(--bronze-light,#d3b17c);} .ds-nav-item:focus-visible{outline:2px solid var(--focus,#d3b17c);outline-offset:4px;} @media(prefers-reduced-motion:reduce){.ds-nav-item{transition-duration:.01ms;}}"
+    },
+    {
+      "name": "Map Filter",
+      "kind": "chip",
+      "refersTo": "map-filter",
+      "description": "Final accessible map filters: 12px type, 44px minimum height, selected treatment and keyboard focus.",
+      "html": "<div class=\"ds-filters\"><button class=\"ds-filter ds-selected\" type=\"button\" aria-pressed=\"true\">Todos os territórios</button><button class=\"ds-filter\" type=\"button\" aria-pressed=\"false\">Com encontros</button></div>",
+      "css": ".ds-filters{display:flex;align-items:center;gap:7px;overflow-x:auto;min-height:44px;padding:4px;} .ds-filter{font-family:var(--font,'Manrope',sans-serif);white-space:nowrap;border:1px solid var(--border,#38382e);border-radius:6px;min-height:44px;background:transparent;padding:10px 12px;font-size:12px;line-height:1.6;color:var(--muted,#a7a798);cursor:pointer;} .ds-filter.ds-selected{background:#383427;color:#d9bd87;border-color:#66573a;} .ds-filter:focus-visible{outline:2px solid var(--focus,#d3b17c);outline-offset:4px;}"
+    },
+    {
+      "name": "Community Card",
+      "kind": "card",
+      "refersTo": "community-card",
+      "description": "Observed community-card content excerpt with double-ring seal; production adds a subdued photographic cover above it.",
+      "html": "<a class=\"ds-card\" href=\"#comunidade\"><div class=\"ds-card-content\"><span class=\"ds-seal\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m3 24 10-17 5 8 4-6 9 15H3Zm7-12 3 4 3-4\"/></svg></span><h2>Trilha da Serra</h2><p>Encontros e trilhas para descobrir novos caminhos juntos.</p></div></a>",
+      "css": ".ds-card{font-family:var(--font,'Manrope',sans-serif);display:block;max-width:320px;min-width:0;background:var(--surface,#24241e);color:var(--text,#e9e2d3);border-radius:12px;overflow:hidden;text-decoration:none;transition:background .18s;} .ds-card:hover{background:#2b2b23;} .ds-card:focus-visible{outline:2px solid var(--focus,#d3b17c);outline-offset:4px;} .ds-card-content{padding:20px;} .ds-card h2{font-size:20px;font-weight:600;line-height:1.3;letter-spacing:-.4px;margin:12px 0 9px;} .ds-card p{font-size:12px;line-height:1.9;color:var(--muted,#a7a798);margin:0;} .ds-seal{--ds-seal-color:var(--bronze,#b68a4d);display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border:1px solid color-mix(in srgb,var(--ds-seal-color) 45%,transparent);border-radius:50%;color:var(--ds-seal-color);background:color-mix(in srgb,var(--ds-seal-color) 9%,var(--bg,#171713));position:relative;} .ds-seal::after{content:\"\";position:absolute;inset:4px;border:1px solid color-mix(in srgb,var(--ds-seal-color) 23%,transparent);border-radius:50%;pointer-events:none;} @media(prefers-reduced-motion:reduce){.ds-card{transition-duration:.01ms;}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Bronze, stone and cartography",
+    "overview": "An everyday community app whose defining canvas is the territorial map. Aged bronze, dark stone, subtle cartographic details and medallion trophies supply the material character; familiar controls and plain Portuguese keep the experience approachable.\n\nThe angular M in a six-sided seal anchors the identity. Subdued cover photography carries living community activity, while bronze-medallion artwork carries the ancient material. Community themes change accent, cover and emblem within a stable navigation and accessibility system.",
+    "keyCharacteristics": [
+      "Dark stone surfaces with restrained bronze emphasis.",
+      "Cartographic ownership reinforced by symbols and names.",
+      "Compact Manrope typography and familiar, keyboard-accessible controls.",
+      "Local artwork, subdued photography and explicitly identified demonstration content."
+    ],
+    "rules": [
+      {
+        "name": "The Readable Accent Rule",
+        "body": "Preserve the raw community color in storage and the color editor. Derive visible seals, territorial overlays, dots and community emphasis with `accessibleAccent`: retain colors that reach 4.5:1 against the surface; otherwise blend toward the text color until they do. Invalid input falls back to bronze. Never replace the stored choice with its derived ink.",
+        "section": "colors"
+      },
+      {
+        "name": "The Map Readability Rule",
+        "body": "Responsive compression must preserve the final 12px essential map labels and 44px map filters; do not restore the earlier compact overrides.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "**Do** reserve bronze for meaningful actions, territory progress and emphasis.",
+      "**Do** reinforce ownership with names and emblems as well as color.",
+      "**Do** preserve raw community accents and derive readable display ink.",
+      "**Do** retain 12px essential map metadata, 44px map filters and visible keyboard focus at every width.",
+      "**Do** use local artwork, subdued community photography and honest demonstration labels."
+    ],
+    "donts": [
+      "**Don't** introduce panel gradients, glass, glows or decorative icon tiles.",
+      "**Don't** trade familiar controls or plain Portuguese for ornamental lore.",
+      "**Don't** turn the app canvas into a landing-page hero or decorative KPI grid.",
+      "**Don't** squeeze desktop chat columns or the Local pill into narrow layouts."
+    ]
+  }
+}
