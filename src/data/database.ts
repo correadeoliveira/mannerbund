@@ -17,6 +17,20 @@ export class LocalDatabase extends Dexie {
           .equals('app')
           .modify({ version: 2, paths: [], pathEnrollments: [] }),
       );
+    this.version(3)
+      .stores({ state: 'id', media: 'id' })
+      .upgrade((tx) =>
+        tx
+          .table('state')
+          .where('id')
+          .equals('app')
+          .modify({ version: 3, eventDiscovery: [], connections: [] }),
+      );
+    this.version(4)
+      .stores({ state: 'id', media: 'id' })
+      .upgrade((tx) =>
+        tx.table('state').where('id').equals('app').modify({ version: 4, duels: [] }),
+      );
   }
 }
 export const db = new LocalDatabase();

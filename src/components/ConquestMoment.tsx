@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TrophyIcon, XIcon } from '@phosphor-icons/react';
 import { isMember, seasonKey, territoryOwner } from '../domain/rules';
+import { communityLevel } from '../domain/play';
 import { IconButton, Media, Seal, useApp } from './ui';
 import type { Community } from '../domain/types';
 
@@ -10,6 +11,7 @@ type Moment = {
   description: string;
   image?: string;
   community?: Community;
+  level?: boolean;
   to: string;
 };
 export function ConquestMoment() {
@@ -21,6 +23,7 @@ export function ConquestMoment() {
         userId: string;
         season: string;
         badges: Set<string>;
+        levels: Record<string, number>;
         owners: Record<string, string | undefined>;
       }
     | undefined
@@ -30,10 +33,29 @@ export function ConquestMoment() {
       owners = Object.fromEntries(
         data.points.map((p) => [p.id, territoryOwner(data, p.id, season)]),
       );
+    const levels = Object.fromEntries(
+      data.communities.map((community) => [
+        community.id,
+        communityLevel(data, userId, community.id).level,
+      ]),
+    );
     const before = previous.current;
     if (before?.userId === userId) {
       const badge = data.badges.find((b) => b.userId === userId && !before.badges.has(b.id));
-      if (badge)
+      const leveled = data.communities.find(
+        (community) => levels[community.id] > (before.levels[community.id] ?? 1),
+      );
+      if (leveled) {
+        setMoment({
+          title: `Nível ${levels[leveled.id]} em ${leveled.name}`,
+          description: badge
+            ? `Insígnia conquistada · ${badge.title}`
+            : 'Novo nível pela conclusão de um Caminho.',
+          community: leveled,
+          level: true,
+          to: '/perfil?tab=trofeus',
+        });
+      } else if (badge)
         setMoment({
           title: 'Este encontro agora é parte de você.',
           description: badge.title,
@@ -58,7 +80,7 @@ export function ConquestMoment() {
         }
       }
     }
-    previous.current = { userId, season, badges, owners };
+    previous.current = { userId, season, badges, owners, levels };
   }, [data, userId, season]);
   useEffect(() => {
     if (moment) {
@@ -67,7 +89,7 @@ export function ConquestMoment() {
     }
   }, [moment]);
   return moment ? (
-    <div className="conquest-moment" role="status">
+    <div className={`conquest-moment${moment.level ? ' level-moment' : ''}`} role="status">
       {moment.image ? (
         <Media src={moment.image} alt="Sua nova insígnia" />
       ) : moment.community ? (

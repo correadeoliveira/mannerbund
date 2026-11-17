@@ -12,6 +12,7 @@ import {
   seasonBounds,
   seasonKey,
   territoryOwner,
+  visitsByMonth,
 } from './rules';
 import type { Presence } from './types';
 
@@ -71,6 +72,45 @@ describe('collective territory and monthly seasons', () => {
     expect(presenceDuration(p, { start: time + 30 * MINUTE, end: time + 70 * MINUTE })).toBe(
       40 * MINUTE,
     );
+  });
+});
+describe('visited places', () => {
+  it('shows only the selected person and source, after a session earns valid time and ends', () => {
+    const data = seed(time);
+    const earlier = { ...presence('u1', 'c1', time, HOUR), source: 'gps' as const };
+    const later = {
+      ...presence('u1', 'c1', time + 2 * HOUR, HOUR),
+      id: 'repeat',
+      source: 'gps' as const,
+    };
+    data.presences = [
+      earlier,
+      { ...earlier, id: 'active', endedAt: undefined },
+      { ...earlier, id: 'empty', intervals: [] },
+      presence('u1', 'c1', time, HOUR),
+      { ...earlier, userId: 'u2' },
+      later,
+    ];
+    data.memberships = [];
+    const gps = visitsByMonth(data, 'u1', 'gps').get('2026-11');
+    expect(gps?.map((item) => item.presence.id)).toEqual(['repeat', earlier.id]);
+    expect(visitsByMonth(data, 'u1', 'demo').get('2026-11')).toHaveLength(1);
+  });
+
+  it('groups by check-in month in São Paulo and clips event time to its window', () => {
+    const data = seed(time);
+    const beforeMidnight = Date.parse('2026-11-30T23:55:00-03:00');
+    const event = data.events[0];
+    event.start = beforeMidnight + 10 * MINUTE;
+    event.end = beforeMidnight + 40 * MINUTE;
+    data.presences = [
+      { ...presence('u1', 'c1', beforeMidnight, HOUR), eventId: event.id },
+      presence('u1', 'c1', beforeMidnight + 5 * MINUTE, 20_000),
+    ];
+    const months = visitsByMonth(data, 'u1', 'demo');
+    expect([...months.keys()]).toEqual(['2026-12', '2026-11']);
+    expect(months.get('2026-12')?.[0].duration).toBe(20_000);
+    expect(months.get('2026-11')?.[0]).toMatchObject({ event, duration: 30 * MINUTE });
   });
 });
 describe('membership slots', () => {

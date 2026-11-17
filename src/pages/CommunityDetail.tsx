@@ -37,6 +37,7 @@ import {
 } from '../components/ui';
 import { CommunityForm } from '../components/CommunityForm';
 import { CommunityPaths } from '../components/CommunityPaths';
+import { CommunityLevel } from '../components/CommunityLevel';
 import { EventForm } from '../components/EventForm';
 import { EventCard } from '../components/EventCard';
 import { PostComposer } from '../components/PostComposer';
@@ -162,6 +163,7 @@ export default function CommunityDetail() {
           )}
         </div>
       </div>
+      {joined && <CommunityLevel community={c} />}
       {!joined && joinError && (
         <p className="notice">
           {joinError} <Link to="/premium">Conhecer o Premium</Link>

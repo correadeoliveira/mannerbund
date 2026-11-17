@@ -1,19 +1,31 @@
 import { update } from '../data/database';
 import {
   awardBadges,
+  canJoinEventDiscovery,
   canModerate,
   canReadConversation,
+  connectionBetween,
   distanceMeters,
+  isDiscoverable,
   isMember,
   membershipError,
   MINUTE,
   refreshOwnership,
 } from '../domain/rules';
+import {
+  characterLook,
+  isDuelPlayer,
+  openDuelBetween,
+  validCharacter,
+  validDuelMoves,
+} from '../domain/play';
 import type {
   AppData,
+  CharacterAppearance,
   Clock,
   Community,
   CommunityPath,
+  DuelMoves,
   Event,
   LocationSample,
   Point,
@@ -39,6 +51,10 @@ const admin = (data: AppData, userId: string, communityId: string) => {
 const member = (data: AppData, userId: string, communityId: string) => {
   if (!isMember(data, userId, communityId)) fail('Entre nesta comunidade para continuar.');
 };
+const duelForPlayer = (data: AppData, duelId: string, userId: string) =>
+  data.duels.find((duel) => duel.id === duelId && isDuelPlayer(duel, userId)) ??
+  fail('Duelo não encontrado.');
+
 export function createApplication(clock: Clock = { now: () => Date.now() }) {
   const now = (data: AppData) => clock.now() + data.clockOffset;
   function settle(data: AppData) {
@@ -139,6 +155,12 @@ export function createApplication(clock: Clock = { now: () => Date.now() }) {
           bio: patch.bio.trim().slice(0, 300),
         }),
       ),
+    editCharacter: (actor: string, appearance: CharacterAppearance) =>
+      update((data) => {
+        if (!validCharacter(appearance, data, actor))
+          fail('Escolha opções disponíveis para o personagem.');
+        user(data, actor).character = characterLook(appearance);
+      }),
     premium: (userId: string) =>
       update((data) => {
         const u = user(data, userId);
@@ -220,6 +242,90 @@ export function createApplication(clock: Clock = { now: () => Date.now() }) {
         if (data.pathEnrollments.some((entry) => entry.pathId === pathId && entry.userId === actor))
           return;
         data.pathEnrollments.push({ pathId, userId: actor, startedAt: now(data) });
+      }),
+    setEventDiscovery: (actor: string, eventId: string, enabled: boolean) =>
+      update((data) => {
+        const event =
+          data.events.find((item) => item.id === eventId) ?? fail('Encontro não encontrado.');
+        if (enabled) {
+          if (!canJoinEventDiscovery(data, event, actor, now(data)))
+            fail('Registre presença válida e aguarde o fim do encontro para aparecer na lista.');
+          if (!isDiscoverable(data, eventId, actor))
+            data.eventDiscovery.push({ eventId, userId: actor });
+        } else {
+          data.eventDiscovery = data.eventDiscovery.filter(
+            (entry) => entry.eventId !== eventId || entry.userId !== actor,
+          );
+          data.connections = data.connections.filter(
+            (item) =>
+              item.status === 'accepted' ||
+              item.eventId !== eventId ||
+              (item.from !== actor && item.to !== actor),
+          );
+        }
+      }),
+    requestConnection: (actor: string, target: string, eventId: string) =>
+      update((data) => {
+        user(data, actor);
+        user(data, target);
+        if (actor === target) fail('Escolha outra pessoa para se conectar.');
+        if (!isDiscoverable(data, eventId, actor) || !isDiscoverable(data, eventId, target))
+          fail('Vocês precisam aparecer na lista do mesmo encontro para enviar um pedido.');
+        if (connectionBetween(data, actor, target))
+          fail('Já existe um pedido ou conexão entre vocês.');
+        data.connections.push({ id: id(), eventId, from: actor, to: target, status: 'pending' });
+      }),
+    acceptConnection: (actor: string, connectionId: string) =>
+      update((data) => {
+        const request = data.connections.find((item) => item.id === connectionId);
+        if (!request || request.to !== actor) return fail('Pedido de conexão não encontrado.');
+        request.status = 'accepted';
+      }),
+    dismissConnection: (actor: string, connectionId: string) =>
+      update((data) => {
+        const request = data.connections.find((item) => item.id === connectionId);
+        if (
+          !request ||
+          (request.from !== actor && request.to !== actor) ||
+          request.status !== 'pending'
+        )
+          fail('Pedido pendente não encontrado.');
+        data.connections = data.connections.filter((item) => item.id !== connectionId);
+      }),
+    challengeDuel: (actor: string, target: string) =>
+      update((data) => {
+        user(data, actor);
+        user(data, target);
+        if (actor === target || connectionBetween(data, actor, target)?.status !== 'accepted')
+          fail('Escolha uma conexão aceita para desafiar.');
+        if (openDuelBetween(data, actor, target)) fail('Já existe um duelo aberto entre vocês.');
+        data.duels.push({ id: id(), challengerId: actor, opponentId: target, status: 'pending' });
+      }),
+    respondToDuel: (actor: string, duelId: string, accept: boolean) =>
+      update((data) => {
+        const duel = duelForPlayer(data, duelId, actor);
+        if (duel.status !== 'pending' || duel.opponentId !== actor)
+          fail('Somente quem recebeu o desafio pode responder a um duelo pendente.');
+        duel.status = accept ? 'active' : 'closed';
+      }),
+    submitDuelMoves: (actor: string, duelId: string, moves: DuelMoves) =>
+      update((data) => {
+        const duel = duelForPlayer(data, duelId, actor);
+        if (duel.status !== 'active') fail('Aguarde o aceite do duelo para jogar.');
+        if (!validDuelMoves(moves)) fail('Escolha um poder para cada uma das três rodadas.');
+        const slot = duel.challengerId === actor ? 'challengerMoves' : 'opponentMoves';
+        if (duel[slot]) fail('Você já enviou suas jogadas.');
+        duel[slot] = [...moves];
+        if (duel.challengerMoves && duel.opponentMoves) duel.status = 'finished';
+      }),
+    closeDuel: (actor: string, duelId: string) =>
+      update((data) => {
+        const duel = duelForPlayer(data, duelId, actor);
+        if (duel.status !== 'active' && duel.status !== 'pending')
+          fail('Este duelo já foi encerrado.');
+        duel.status = 'closed';
+        delete duel.challengerMoves;
+        delete duel.opponentMoves;
       }),
     rsvp: (actor: string, eventId: string) =>
       update((data) => {

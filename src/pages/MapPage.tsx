@@ -32,13 +32,14 @@ const MapCanvas = lazy(() => import('../components/MapCanvas'));
 export default function MapPage() {
   const { data, now, userId } = useApp(),
     [params, setParams] = useSearchParams();
+  const requestedPoint = data.points.find((p) => p.id === params.get('point'));
   const [query, setQuery] = useState(''),
     [filter, setFilter] = useState('all'),
     [showPresence, setShowPresence] = useState(false),
-    [mobileDetail, setMobileDetail] = useState(false),
+    [mobileDetail, setMobileDetail] = useState(!!requestedPoint),
     [location, setLocation] = useState<{ lat: number; lng: number }>(),
     [locating, setLocating] = useState(false);
-  const selected = data.points.find((p) => p.id === params.get('point')) ?? data.points[0],
+  const selected = requestedPoint ?? data.points[0],
     season = seasonKey(now);
   const owners = useMemo(
     () =>
@@ -174,6 +175,7 @@ export default function MapPage() {
                 points={points}
                 owners={owners}
                 selected={selected.id}
+                focusSelected={!!requestedPoint}
                 onSelect={select}
                 location={location}
               />

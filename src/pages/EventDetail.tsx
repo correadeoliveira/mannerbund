@@ -16,6 +16,7 @@ import { act } from '../state/ui';
 import { Avatar, Button, Empty, Media, Seal, useApp } from '../components/ui';
 import { PresenceDialog } from '../components/PresenceDialog';
 import { EventForm } from '../components/EventForm';
+import { EventConnections } from '../components/Connections';
 
 export default function EventDetail() {
   const { id } = useParams(),
@@ -98,7 +99,7 @@ export default function EventDetail() {
             <p>{event.description}</p>
           </div>
           <div className="section-heading">
-            <h2>Quem vai estar lá</h2>
+            <h2>{ended ? 'Quem confirmou o convite' : 'Quem vai estar lá'}</h2>
             <span className="meta">{event.acceptedIds.length} confirmados</span>
           </div>
           <div className="attendee-list">
@@ -112,6 +113,7 @@ export default function EventDetail() {
               );
             })}
           </div>
+          {ended && <EventConnections event={event} />}
           {owner && (
             <div className="event-invites">
               <h3>Convites da comunidade</h3>

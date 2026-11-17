@@ -24,6 +24,11 @@ import {
 } from '../components/ui';
 import { PostCard } from '../components/PostCard';
 import { ProfilePaths } from '../components/ProfilePaths';
+import { ProfileVisits } from '../components/ProfileVisits';
+import { ProfileConnections } from '../components/Connections';
+import { ProfileCharacter } from '../components/Character';
+import { ProfileLevels } from '../components/CommunityLevel';
+import { duelNeedsAction } from '../domain/play';
 import type { Badge } from '../domain/types';
 
 export default function ProfilePage() {
@@ -44,6 +49,7 @@ export default function ProfilePage() {
       />
     );
   const own = profile.id === userId,
+    pendingDuels = own ? data.duels.filter((duel) => duelNeedsAction(duel, userId)).length : 0,
     following = data.follows.some((f) => f.from === userId && f.to === profile.id),
     followers = data.follows.filter((f) => f.to === profile.id),
     follows = data.follows.filter((f) => f.from === profile.id),
@@ -51,7 +57,12 @@ export default function ProfilePage() {
       .filter((p) => p.userId === profile.id)
       .sort((a, b) => b.createdAt - a.createdAt),
     badges = data.badges.filter((b) => b.userId === profile.id).sort((a, b) => b.date - a.date),
-    tab = params.get('tab') === 'trofeus' ? 'trofeus' : 'historias',
+    requestedTab = params.get('tab'),
+    tab =
+      requestedTab === 'trofeus' ||
+      (own && (requestedTab === 'lugares' || requestedTab === 'conexoes'))
+        ? requestedTab
+        : 'historias',
     communities = data.communities.filter((c) =>
       data.memberships.some((m) => m.userId === profile.id && m.communityId === c.id),
     );
@@ -144,6 +155,7 @@ export default function ProfilePage() {
           </button>
         </div>
       </div>
+      <ProfileCharacter key={profile.id} profile={profile} own={own} />
       <div className="profile-content">
         <section>
           <div className="tabs" role="tablist" aria-label="Conteúdo do perfil">
@@ -158,8 +170,43 @@ export default function ProfilePage() {
               <TrophyIcon size={17} />
               Troféus <span>{badges.length}</span>
             </button>
+            {own && (
+              <>
+                <button
+                  role="tab"
+                  aria-selected={tab === 'lugares'}
+                  onClick={() => setParams({ tab: 'lugares' })}
+                >
+                  <MapPinIcon size={17} />
+                  Lugares visitados
+                </button>
+                <button
+                  role="tab"
+                  aria-selected={tab === 'conexoes'}
+                  onClick={() => setParams({ tab: 'conexoes' })}
+                >
+                  Conexões
+                  {pendingDuels > 0 && (
+                    <span
+                      className="duel-pending-count"
+                      aria-label={
+                        pendingDuels === 1
+                          ? '1 duelo aguarda você'
+                          : `${pendingDuels} duelos aguardam você`
+                      }
+                    >
+                      {pendingDuels}
+                    </span>
+                  )}
+                </button>
+              </>
+            )}
           </div>
-          {tab === 'historias' ? (
+          {tab === 'conexoes' ? (
+            <ProfileConnections />
+          ) : tab === 'lugares' ? (
+            <ProfileVisits />
+          ) : tab === 'historias' ? (
             posts.length ? (
               posts.map((p) => <PostCard key={p.id} post={p} />)
             ) : (
@@ -171,6 +218,7 @@ export default function ProfilePage() {
           ) : (
             <>
               {own && <ProfilePaths key={userId} />}
+              {own && <ProfileLevels />}
               <p className="trophy-intro">Encontros que passam. Conquistas que ficam.</p>
               {badges.length ? (
                 <div className="trophy-grid">

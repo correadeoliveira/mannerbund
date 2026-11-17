@@ -26,6 +26,11 @@ npm run preview  # visualizar o build
 - Criação e personalização de comunidades: seis presets, símbolos, cor, descrição e capa com prévia. Edição só pelo criador.
 - Eventos, convites individuais, confirmação, horários de São Paulo, tempo mínimo e imagem de insígnia. Cadastro de novos points no mapa, com sugestão de locais próximos.
 - Visitas livres e presenças em eventos. Uma sessão ativa por pessoa. Simulação de tempo e raio; GPS real opcional em primeiro plano, com intervalo fresco e precisão conservadora.
+- Histórico de lugares no próprio perfil, com visitas por GPS e simuladas separadas e atalhos para o mapa. A aba aproveita os check-ins salvos no navegador.
+- Conexões entre participantes com presença válida no mesmo encontro. Cada pessoa escolhe aparecer na lista, pode aceitar ou recusar pedidos e abrir o chat privado após o aceite.
+- Níveis permanentes por comunidade com histórico de XP e atalho para a próxima oportunidade.
+- Editor visual de personagem com penteados, trajes, tons de pele, traços, fundos e acessórios. Concluir um Caminho libera o broche da comunidade.
+- Duelos com três cartas secretas, aviso de jogada pendente, revelação por rodada, revanche e treino solo. Os duelos entre pessoas aparecem no histórico privado dos dois perfis.
 - Troféus únicos por pessoa/evento, com dados preservados após alterações e saída da comunidade.
 - Caminhos com três encontros escolhidos pelo ADM. A inscrição é voluntária e o progresso vem das insígnias, inclusive as já conquistadas. Caminhos concluídos podem ser compartilhados no feed pelo perfil.
 - Vários canais por comunidade, mensagens privadas entre duas pessoas, não lidas e moderação.
@@ -52,6 +57,14 @@ O relógio demonstrativo avança para todos os perfis locais. Só sessões demon
 Para testar um Caminho no cenário inicial, abra **Aurora Running → Caminhos → Três parques com a Aurora** como Rafael e toque em **Começar caminho**. Você começa com **1 de 3**. Complete **O primeiro sol é nosso** e **Uma volta pela Água Branca** pelo check-in demonstrativo. Depois do fim dos encontros, abra **Perfil → Troféus → Meus caminhos** para conferir a conclusão e compartilhar no feed.
 
 Bancos locais de versões anteriores recebem a aba Caminhos e mantêm os dados existentes. O caminho de exemplo está disponível em um cenário novo. Para experimentá-lo com os dados atuais intactos, use outro perfil de navegador.
+
+Para ver visitas de exemplo em uma sessão nova, abra **Perfil → Lugares visitados → Ver demonstração**. Os check-ins que você fizer aparecem após o encerramento da sessão e ficam disponíveis enquanto o navegador conservar os dados do site.
+
+Para experimentar uma conexão em um cenário novo, abra **Aurora Running → Encontros → Passos que deixam história** como Rafael. Em **Conexões do encontro**, toque em **Aparecer neste encontro** e envie um pedido para Marina. Troque para Marina no mesmo navegador e aceite em **Perfil → Conexões**. O botão **Conversar** abre a conversa privada entre as duas contas.
+
+Para experimentar os três recursos em conjunto, troque para **Marina** em um cenário novo. Em **Perfil → Troféus → Meus níveis** você vê o XP da Aurora. Use **Personalizar personagem**, depois abra **Perfil → Conexões** e desafie **Pedro**. Troque para Pedro para aceitar e enviar três jogadas. Volte para Marina e envie as dela para revelar o resultado. Em uma instalação atualizada, use qualquer conexão já aceita ou crie uma antes de desafiar.
+
+Para jogar em uma sessão nova sem alternar perfis, abra **Perfil → Conexões → Treinar sozinho**, escolha três cartas e toque em **Jogar treino**. Para ganhar um broche, conclua o Caminho da Aurora e equipe a peça em **Personalizar personagem → Acessórios**.
 
 ## Dados e limites
 

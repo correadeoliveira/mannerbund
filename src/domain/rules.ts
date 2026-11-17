@@ -1,4 +1,13 @@
-import type { AppData, Community, CommunityPath, Interval, Point, Presence, User } from './types';
+import type {
+  AppData,
+  Community,
+  CommunityPath,
+  Event,
+  Interval,
+  Point,
+  Presence,
+  User,
+} from './types';
 
 export const MINUTE = 60_000;
 export const HOUR = 60 * MINUTE;
@@ -34,6 +43,45 @@ export function presenceDuration(presence: Presence, window?: Interval): number 
     end = Math.max(end, i.end);
   }
   return total;
+}
+export function visitsByMonth(data: AppData, userId: string, source: Presence['source']) {
+  const months = new Map<string, { presence: Presence; duration: number; event?: Event }[]>();
+  const sessions = data.presences
+    .filter((p) => p.userId === userId && p.source === source && p.endedAt !== undefined)
+    .sort((a, b) => b.startedAt - a.startedAt || a.id.localeCompare(b.id));
+
+  for (const presence of sessions) {
+    const event = data.events.find((item) => item.id === presence.eventId);
+    const duration = presenceDuration(presence, event);
+    if (duration <= 0) continue;
+
+    const month = seasonKey(presence.startedAt);
+    const visit = { presence, duration, event };
+    const group = months.get(month);
+    if (group) group.push(visit);
+    else months.set(month, [visit]);
+  }
+  return months;
+}
+export function canJoinEventDiscovery(data: AppData, event: Event, userId: string, now: number) {
+  return (
+    event.end <= now &&
+    event.acceptedIds.includes(userId) &&
+    data.presences.some(
+      (p) =>
+        p.userId === userId &&
+        p.eventId === event.id &&
+        p.pointId === event.pointId &&
+        p.communityId === event.communityId &&
+        presenceDuration(p, event) > 0,
+    )
+  );
+}
+export function isDiscoverable(data: AppData, eventId: string, userId: string) {
+  return data.eventDiscovery.some((entry) => entry.eventId === eventId && entry.userId === userId);
+}
+export function connectionBetween(data: AppData, a: string, b: string) {
+  return data.connections.find((c) => (c.from === a && c.to === b) || (c.from === b && c.to === a));
 }
 export function distanceMeters(
   a: Pick<Point, 'lat' | 'lng'>,

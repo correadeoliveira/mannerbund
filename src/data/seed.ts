@@ -93,7 +93,7 @@ export function seed(now = Date.now()): AppData {
   }));
   const data: AppData = {
     id: 'app',
-    version: 2,
+    version: 4,
     clockOffset: 0,
     users: [
       {
@@ -112,6 +112,7 @@ export function seed(now = Date.now()): AppData {
         bio: 'Entre o barro e o asfalto. Criadora do Círculo de Barro.',
         color: '#A97468',
         avatar: '/images/marina.jpg',
+        character: { hair: 'braided', outfit: 'cloak', background: 'clay' },
         premium: false,
       },
       {
@@ -121,6 +122,7 @@ export function seed(now = Date.now()): AppData {
         bio: 'Sempre tem outro caminho. Vamos juntos?',
         color: '#779389',
         avatar: '/images/pedro.jpg',
+        character: { hair: 'shaved', outfit: 'vest', background: 'patina' },
         premium: false,
       },
       {
@@ -328,6 +330,14 @@ export function seed(now = Date.now()): AppData {
       },
     ],
     pathEnrollments: [],
+    eventDiscovery: [
+      { eventId: 'e4', userId: 'u2' },
+      { eventId: 'e4', userId: 'u3' },
+    ],
+    connections: [
+      { id: 'connection-marina-pedro', eventId: 'e4', from: 'u2', to: 'u3', status: 'accepted' },
+    ],
+    duels: [],
     presences: [],
     badges: [],
     posts: [

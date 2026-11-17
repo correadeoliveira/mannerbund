@@ -1,11 +1,20 @@
 export type Id = string;
 export type Emblem = 'sun' | 'mountain' | 'leaf' | 'flame' | 'waves' | 'aperture';
+export interface CharacterAppearance {
+  hair: 'short' | 'braided' | 'shaved';
+  outfit: 'tunic' | 'cloak' | 'vest';
+  background: 'bronze' | 'patina' | 'clay' | 'stone';
+  skin?: 'light' | 'medium' | 'deep';
+  face?: 'serene' | 'smiling' | 'bold';
+  accessory?: 'none' | 'hoop' | 'pendant' | `brooch:${Id}`;
+}
 export interface User {
   id: Id;
   name: string;
   handle: string;
   bio: string;
   avatar?: string;
+  character?: CharacterAppearance;
   color: string;
   premium: boolean;
 }
@@ -60,6 +69,27 @@ export interface PathEnrollment {
   pathId: Id;
   userId: Id;
   startedAt: number;
+}
+export interface EventDiscovery {
+  eventId: Id;
+  userId: Id;
+}
+export interface Connection {
+  id: Id;
+  eventId: Id;
+  from: Id;
+  to: Id;
+  status: 'pending' | 'accepted';
+}
+export type DuelMove = 'strength' | 'guard' | 'wit';
+export type DuelMoves = [DuelMove, DuelMove, DuelMove];
+export interface Duel {
+  id: Id;
+  challengerId: Id;
+  opponentId: Id;
+  status: 'pending' | 'active' | 'finished' | 'closed';
+  challengerMoves?: DuelMoves;
+  opponentMoves?: DuelMoves;
 }
 export interface Interval {
   start: number;
@@ -128,7 +158,7 @@ export interface Ownership {
 }
 export interface AppData {
   id: 'app';
-  version: 2;
+  version: 4;
   users: User[];
   communities: Community[];
   memberships: Membership[];
@@ -136,6 +166,9 @@ export interface AppData {
   events: Event[];
   paths: CommunityPath[];
   pathEnrollments: PathEnrollment[];
+  eventDiscovery: EventDiscovery[];
+  connections: Connection[];
+  duels: Duel[];
   presences: Presence[];
   badges: Badge[];
   posts: Post[];

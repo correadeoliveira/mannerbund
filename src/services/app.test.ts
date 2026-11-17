@@ -83,39 +83,204 @@ describe('community paths', () => {
     expect(earnedPathEvents(persisted, path, 'u1')).toEqual(new Set(['e4']));
   });
 
-  it('migrates a version one database without resetting its records or uploads', async () => {
-    const name = 'mannerbund-path-migration-test';
-    const legacy = new Dexie(name);
-    legacy.version(1).stores({ state: 'id', media: 'id' });
-    const { paths: _paths, pathEnrollments: _enrollments, ...snapshot } = seed(initial);
-    const original = {
-      ...snapshot,
-      events: snapshot.events.filter((event) => event.id !== 'e5'),
-      version: 1,
-    };
-    const upload = { id: 'local-photo', blob: new Blob(['perfil'], { type: 'image/png' }) };
-    const upgraded = new LocalDatabase(name);
-    try {
-      await legacy.table('state').put(original);
-      await legacy.table('media').put(upload);
-      legacy.close();
-      expect(await upgraded.state.get('app')).toEqual({
-        ...original,
-        version: 2,
-        paths: [],
-        pathEnrollments: [],
-      });
-      expect(await (await upgraded.media.get(upload.id))?.blob.text()).toBe('perfil');
-    } finally {
-      legacy.close();
-      await upgraded.delete();
-    }
-  });
+  it.each([1, 2, 3])(
+    'migrates a version %i database and preserves its records and uploads',
+    async (version) => {
+      const name = `mannerbund-migration-test-${version}`;
+      const legacy = new Dexie(name);
+      legacy.version(version).stores({ state: 'id', media: 'id' });
+      const { duels: _duels, eventDiscovery, connections, ...snapshot } = seed(initial);
+      snapshot.users = snapshot.users.map(({ character: _character, ...person }) => person);
+      const { paths, pathEnrollments: _enrollments, ...firstVersion } = snapshot;
+      const pathEnrollments = [{ pathId: paths[0].id, userId: 'u1', startedAt: initial }];
+      const original =
+        version === 1
+          ? {
+              ...firstVersion,
+              events: firstVersion.events.filter((event) => event.id !== 'e5'),
+              version,
+            }
+          : {
+              ...snapshot,
+              pathEnrollments,
+              version,
+              ...(version === 3 ? { eventDiscovery, connections } : {}),
+            };
+      const upload = { id: 'local-photo', blob: new Blob(['perfil'], { type: 'image/png' }) };
+      const upgraded = new LocalDatabase(name);
+      try {
+        await legacy.table('state').put(original);
+        await legacy.table('media').put(upload);
+        legacy.close();
+        expect(await upgraded.state.get('app')).toEqual({
+          ...original,
+          version: 4,
+          paths: version === 1 ? [] : paths,
+          pathEnrollments: version === 1 ? [] : pathEnrollments,
+          eventDiscovery: version === 3 ? eventDiscovery : [],
+          connections: version === 3 ? connections : [],
+          duels: [],
+        });
+        expect(await (await upgraded.media.get(upload.id))?.blob.text()).toBe('perfil');
+      } finally {
+        legacy.close();
+        await upgraded.delete();
+      }
+    },
+  );
 
   it('seeds a completed first encounter even at the start of a season', () => {
     const data = seed(seasonBounds(seasonKey(initial)).start);
     const path = data.paths[0];
     expect(earnedPathEvents(data, path, 'u1')).toEqual(new Set(['e4']));
+  });
+});
+
+describe('post-event connections', () => {
+  beforeEach(async () => {
+    await update((data) => {
+      data.connections = [];
+    });
+  });
+  it('requires positive event attendance and waits for the event to end', async () => {
+    await expect(app.setEventDiscovery('u5', 'e4', true)).rejects.toThrow('presença válida');
+    await app.advance(10);
+    await app.startPresence('u1', 'p1', 'c1', 'demo', 'e1');
+    await app.advance(10);
+    await expect(app.setEventDiscovery('u1', 'e1', true)).rejects.toThrow('fim do encontro');
+    await app.endPresence('u1');
+    await app.advance(50);
+    await expect(app.setEventDiscovery('u3', 'e1', true)).rejects.toThrow('presença válida');
+    await app.setEventDiscovery('u1', 'e1', true);
+    expect((await state()).eventDiscovery).toContainEqual({ eventId: 'e1', userId: 'u1' });
+    expect(
+      (await state()).badges.some((badge) => badge.userId === 'u1' && badge.eventId === 'e1'),
+    ).toBe(false);
+  });
+
+  it('requires opt-in from both people, prevents duplicate requests and lets only the recipient accept', async () => {
+    await expect(app.requestConnection('u1', 'u2', 'e4')).rejects.toThrow('mesmo encontro');
+    await app.setEventDiscovery('u1', 'e4', true);
+    await expect(app.requestConnection('u1', 'u1', 'e4')).rejects.toThrow('outra pessoa');
+    const attempts = await Promise.allSettled([
+      app.requestConnection('u1', 'u2', 'e4'),
+      app.requestConnection('u2', 'u1', 'e4'),
+    ]);
+    expect(attempts.filter((attempt) => attempt.status === 'fulfilled')).toHaveLength(1);
+    const [request] = (await state()).connections;
+    await expect(app.acceptConnection(request.from, request.id)).rejects.toThrow('não encontrado');
+    await expect(app.acceptConnection('u3', request.id)).rejects.toThrow('não encontrado');
+    await expect(app.dismissConnection('u3', request.id)).rejects.toThrow('não encontrado');
+    await app.acceptConnection(request.to, request.id);
+    expect((await state()).connections).toEqual([{ ...request, status: 'accepted' }]);
+    expect(await app.dm(request.from, request.to)).toBe('dm-u1-u2');
+    await app.setEventDiscovery(request.to, 'e4', false);
+    expect((await state()).connections).toHaveLength(1);
+  });
+
+  it('lets either party dismiss a pending request and clears pending requests when someone opts out', async () => {
+    await app.setEventDiscovery('u1', 'e4', true);
+    await app.requestConnection('u1', 'u2', 'e4');
+    await app.requestConnection('u1', 'u3', 'e4');
+    const [toMarina, toPedro] = (await state()).connections;
+    await app.dismissConnection('u1', toMarina.id);
+    await app.dismissConnection('u3', toPedro.id);
+    await app.requestConnection('u1', 'u2', 'e4');
+    await app.requestConnection('u3', 'u1', 'e4');
+    const pending = (await state()).connections;
+    await app.setEventDiscovery('u1', 'e4', false);
+    expect((await state()).connections).toHaveLength(0);
+    await expect(app.acceptConnection('u2', pending[0].id)).rejects.toThrow('não encontrado');
+    await expect(app.requestConnection('u2', 'u1', 'e4')).rejects.toThrow('mesmo encontro');
+  });
+});
+
+describe('characters and duels', () => {
+  it('only equips a brooch after an enrolled path is completed in that community', async () => {
+    const appearance = {
+      hair: 'braided',
+      outfit: 'vest',
+      background: 'clay',
+      skin: 'deep',
+      face: 'smiling',
+      accessory: 'brooch:c1',
+    } as const;
+    await expect(app.editCharacter('u1', appearance)).rejects.toThrow('opções disponíveis');
+    const path = (await state()).paths[0];
+    await app.startPath('u1', path.id);
+    await update((data) => {
+      const badge = data.badges.find((item) => item.userId === 'u1')!;
+      data.badges.push(
+        { ...badge, id: 'badge-e1-u1', eventId: 'e1' },
+        { ...badge, id: 'badge-e5-u1', eventId: 'e5' },
+      );
+    });
+    await expect(app.editCharacter('u2', appearance)).rejects.toThrow('opções disponíveis');
+    await app.editCharacter('u1', appearance);
+    expect((await state()).users.find((user) => user.id === 'u1')?.character).toEqual(appearance);
+  });
+
+  it('validates character settings, saves them across reload, and preserves the profile photo', async () => {
+    const appearance = { hair: 'braided', outfit: 'vest', background: 'stone' } as const;
+    const photo = (await state()).users.find((u) => u.id === 'u1')?.avatar;
+    await app.editCharacter('u1', appearance);
+    await expect(
+      app.editCharacter('u1', { ...appearance, hair: 'invalid' as 'short' }),
+    ).rejects.toThrow('opções disponíveis');
+    db.close();
+    await db.open();
+    expect((await state()).users.find((u) => u.id === 'u1')).toMatchObject({
+      avatar: photo,
+      character: appearance,
+    });
+  });
+
+  it('checks accepted connections and serializes challenges for the same pair', async () => {
+    await app.setEventDiscovery('u1', 'e4', true);
+    await app.requestConnection('u1', 'u2', 'e4');
+    await expect(app.challengeDuel('u1', 'u2')).rejects.toThrow('conexão aceita');
+    await expect(app.challengeDuel('u2', 'u2')).rejects.toThrow('conexão aceita');
+    const attempts = await Promise.allSettled([
+      app.challengeDuel('u2', 'u3'),
+      app.challengeDuel('u3', 'u2'),
+    ]);
+    expect(attempts.filter((attempt) => attempt.status === 'fulfilled')).toHaveLength(1);
+    expect((await state()).duels).toHaveLength(1);
+  });
+
+  it('requires the recipient to accept, locks each play and finishes atomically after both submit', async () => {
+    await app.challengeDuel('u2', 'u3');
+    const [duel] = (await state()).duels;
+    const moves = ['strength', 'strength', 'strength'] as const;
+    await expect(app.respondToDuel('u2', duel.id, true)).rejects.toThrow('Somente quem recebeu');
+    await expect(app.respondToDuel('u1', duel.id, true)).rejects.toThrow('não encontrado');
+    await expect(app.submitDuelMoves('u2', duel.id, [...moves])).rejects.toThrow('aceite');
+    await app.respondToDuel('u3', duel.id, true);
+    await expect(app.submitDuelMoves('u1', duel.id, [...moves])).rejects.toThrow('não encontrado');
+    await app.submitDuelMoves('u2', duel.id, [...moves]);
+    expect((await state()).duels[0]).toMatchObject({ status: 'active', challengerMoves: moves });
+    await expect(app.submitDuelMoves('u2', duel.id, [...moves])).rejects.toThrow('já enviou');
+    await app.submitDuelMoves('u3', duel.id, ['wit', 'guard', 'wit']);
+    db.close();
+    await db.open();
+    expect((await state()).duels[0]).toMatchObject({
+      status: 'finished',
+      opponentMoves: ['wit', 'guard', 'wit'],
+    });
+    await expect(app.closeDuel('u3', duel.id)).rejects.toThrow('já foi encerrado');
+  });
+
+  it('keeps declined and cancelled duels closed and discards secret picks when ending early', async () => {
+    await app.challengeDuel('u2', 'u3');
+    await app.respondToDuel('u3', (await state()).duels[0].id, false);
+    await app.challengeDuel('u2', 'u3');
+    const duelId = (await state()).duels[1].id;
+    await app.respondToDuel('u3', duelId, true);
+    await app.submitDuelMoves('u2', duelId, ['guard', 'guard', 'guard']);
+    await app.closeDuel('u3', duelId);
+    const closed = (await state()).duels;
+    expect(closed.map((duel) => duel.status)).toEqual(['closed', 'closed']);
+    expect(closed[1].challengerMoves).toBeUndefined();
   });
 });
 

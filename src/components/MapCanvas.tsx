@@ -10,6 +10,7 @@ interface Props {
   points: Point[];
   owners: Record<string, Community | undefined>;
   selected?: string;
+  focusSelected?: boolean;
   onSelect: (id: string) => void;
   location?: { lat: number; lng: number };
   onPick?: (position: { lat: number; lng: number }) => void;
@@ -28,7 +29,15 @@ function circle(point: Point): GeoJSON.Feature<GeoJSON.Polygon> {
     geometry: { type: 'Polygon', coordinates: [coordinates] },
   };
 }
-export default function MapCanvas({ points, owners, selected, onSelect, location, onPick }: Props) {
+export default function MapCanvas({
+  points,
+  owners,
+  selected,
+  focusSelected,
+  onSelect,
+  location,
+  onPick,
+}: Props) {
   const container = useRef<HTMLDivElement>(null),
     map = useRef<LibreMap | null>(null),
     markers = useRef<maplibregl.Marker[]>([]),
@@ -115,7 +124,12 @@ export default function MapCanvas({ points, owners, selected, onSelect, location
         m.on('load', () => {
           clearTimeout(timeout);
           m.resize();
-          if (points.length > 1) {
+          const initialPoint = focusSelected
+            ? points.find((point) => point.id === selected)
+            : undefined;
+          if (initialPoint) {
+            m.jumpTo({ center: [initialPoint.lng, initialPoint.lat], zoom: 14.1 });
+          } else if (points.length > 1) {
             const bounds = new maplibregl.LngLatBounds();
             points.forEach((p) => bounds.extend([p.lng, p.lat]));
             m.fitBounds(bounds, {
