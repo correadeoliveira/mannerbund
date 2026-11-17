@@ -1,9 +1,17 @@
 import 'fake-indexeddb/auto';
+import Dexie from 'dexie';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { db, initialize, update } from '../data/database';
+import { db, initialize, LocalDatabase, update } from '../data/database';
 import { seed } from '../data/seed';
 import { app, createApplication } from './app';
-import { HOUR, MINUTE, presenceDuration, seasonBounds, seasonKey } from '../domain/rules';
+import {
+  earnedPathEvents,
+  HOUR,
+  MINUTE,
+  presenceDuration,
+  seasonBounds,
+  seasonKey,
+} from '../domain/rules';
 
 const initial = Date.parse('2026-11-06T15:00:00Z');
 beforeEach(async () => {
@@ -13,6 +21,104 @@ beforeEach(async () => {
 });
 afterEach(() => vi.useRealTimers());
 const state = async () => (await db.state.get('app'))!;
+
+describe('community paths', () => {
+  it('limits creation to the owner and requires three distinct events in that community', async () => {
+    const path = (await state()).paths[0];
+    await expect(app.createPath('u2', path)).rejects.toThrow('administrador');
+    await expect(app.createPath('u1', { ...path, eventIds: ['e4', 'e4', 'e5'] })).rejects.toThrow(
+      'diferentes',
+    );
+    await expect(app.createPath('u1', { ...path, eventIds: ['e4', 'e2', 'e5'] })).rejects.toThrow(
+      'desta comunidade',
+    );
+    await expect(
+      app.createPath('u1', { ...path, eventIds: ['e4', 'ausente', 'e5'] }),
+    ).rejects.toThrow('desta comunidade');
+    const id = await app.createPath('u1', { ...path, eventIds: ['e5', 'e4', 'e1'] });
+    expect((await state()).paths.find((item) => item.id === id)?.eventIds).toEqual([
+      'e5',
+      'e4',
+      'e1',
+    ]);
+  });
+
+  it('requires membership and records one voluntary enrollment per person and path', async () => {
+    const path = (await state()).paths[0];
+    expect((await state()).pathEnrollments).toHaveLength(0);
+    await expect(app.startPath('u7', path.id)).rejects.toThrow('Entre nesta comunidade');
+    await Promise.all([app.startPath('u1', path.id), app.startPath('u1', path.id)]);
+    await app.startPath('u2', path.id);
+    expect((await state()).pathEnrollments).toEqual([
+      { pathId: path.id, userId: 'u1', startedAt: initial },
+      { pathId: path.id, userId: 'u2', startedAt: initial },
+    ]);
+    expect(earnedPathEvents(await state(), path, 'u1')).toEqual(new Set(['e4']));
+    expect(earnedPathEvents(await state(), path, 'u5')).toEqual(new Set());
+  });
+
+  it('completes from attendance out of order and preserves progress after leaving and reopening', async () => {
+    const template = (await state()).paths[0];
+    const pathId = await app.createPath('u1', { ...template, eventIds: ['e5', 'e1', 'e4'] });
+    const path = (await state()).paths.find((item) => item.id === pathId)!;
+    await app.startPath('u2', pathId);
+    await app.rsvp('u2', 'e1');
+    await app.advance(10);
+    await app.startPresence('u2', 'p1', 'c1', 'demo', 'e1');
+    await app.advance(30);
+    expect(earnedPathEvents(await state(), path, 'u2')).toEqual(new Set(['e4']));
+    await app.advance(30);
+    expect(earnedPathEvents(await state(), path, 'u2')).toEqual(new Set(['e4', 'e1']));
+    await app.rsvp('u2', 'e5');
+    await app.advance(50);
+    await app.startPresence('u2', 'p8', 'c1', 'demo', 'e5');
+    await app.advance(60);
+    await app.leave('u2', 'c1');
+    db.close();
+    await db.open();
+    await initialize();
+    const persisted = await state();
+    expect(persisted.pathEnrollments).toContainEqual({ pathId, userId: 'u2', startedAt: initial });
+    expect(earnedPathEvents(persisted, path, 'u2')).toEqual(new Set(['e4', 'e1', 'e5']));
+    expect(earnedPathEvents(persisted, path, 'u1')).toEqual(new Set(['e4']));
+  });
+
+  it('migrates a version one database without resetting its records or uploads', async () => {
+    const name = 'mannerbund-path-migration-test';
+    const legacy = new Dexie(name);
+    legacy.version(1).stores({ state: 'id', media: 'id' });
+    const { paths: _paths, pathEnrollments: _enrollments, ...snapshot } = seed(initial);
+    const original = {
+      ...snapshot,
+      events: snapshot.events.filter((event) => event.id !== 'e5'),
+      version: 1,
+    };
+    const upload = { id: 'local-photo', blob: new Blob(['perfil'], { type: 'image/png' }) };
+    const upgraded = new LocalDatabase(name);
+    try {
+      await legacy.table('state').put(original);
+      await legacy.table('media').put(upload);
+      legacy.close();
+      expect(await upgraded.state.get('app')).toEqual({
+        ...original,
+        version: 2,
+        paths: [],
+        pathEnrollments: [],
+      });
+      expect(await (await upgraded.media.get(upload.id))?.blob.text()).toBe('perfil');
+    } finally {
+      legacy.close();
+      await upgraded.delete();
+    }
+  });
+
+  it('seeds a completed first encounter even at the start of a season', () => {
+    const data = seed(seasonBounds(seasonKey(initial)).start);
+    const path = data.paths[0];
+    expect(earnedPathEvents(data, path, 'u1')).toEqual(new Set(['e4']));
+  });
+});
+
 describe('local application services', () => {
   it('uses one own slot and one other slot, and preserves extra owned communities after downgrade', async () => {
     const input = {

@@ -1,4 +1,4 @@
-import type { AppData, Community, Interval, Point, Presence, User } from './types';
+import type { AppData, Community, CommunityPath, Interval, Point, Presence, User } from './types';
 
 export const MINUTE = 60_000;
 export const HOUR = 60 * MINUTE;
@@ -126,6 +126,18 @@ export function awardBadges(data: AppData, now: number): void {
       });
     }
   }
+}
+export function earnedPathEvents(data: AppData, path: CommunityPath, userId: string) {
+  return new Set(
+    data.badges
+      .filter(
+        (badge) =>
+          badge.userId === userId &&
+          badge.communityId === path.communityId &&
+          path.eventIds.includes(badge.eventId),
+      )
+      .map((badge) => badge.eventId),
+  );
 }
 export function participants(data: AppData, communityId: string, season: string) {
   const totals = new Map<string, number>();

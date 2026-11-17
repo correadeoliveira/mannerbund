@@ -4,14 +4,16 @@ import { Avatar, Button, ImageUpload, Modal, useApp, useBusy } from './ui';
 
 export function PostComposer({
   communityId,
+  personalDraft,
   onClose,
 }: {
   communityId?: string;
+  personalDraft?: string;
   onClose: () => void;
 }) {
   const { data, userId, user } = useApp(),
     { busy, run } = useBusy(),
-    [text, setText] = useState(''),
+    [text, setText] = useState(personalDraft ?? ''),
     [image, setImage] = useState<string>(),
     [asCommunity, setAsCommunity] = useState(communityId ?? '');
   const owned = data.communities.filter((c) => c.ownerId === userId);
@@ -21,7 +23,12 @@ export function PostComposer({
         onSubmit={(e) => {
           e.preventDefault();
           void run(async () => {
-            await app.createPost(userId, text, image || undefined, asCommunity || undefined);
+            await app.createPost(
+              userId,
+              text,
+              image || undefined,
+              personalDraft === undefined ? asCommunity || undefined : undefined,
+            );
             onClose();
           }, 'Sua história já está no feed.');
         }}
@@ -33,7 +40,7 @@ export function PostComposer({
             <span className="meta">Publicação no feed global</span>
           </div>
         </div>
-        {!!owned.length && (
+        {personalDraft === undefined && !!owned.length && (
           <label>
             Publicar como
             <select value={asCommunity} onChange={(e) => setAsCommunity(e.target.value)}>

@@ -8,6 +8,15 @@ export class LocalDatabase extends Dexie {
   constructor(name = 'mannerbund-v1') {
     super(name);
     this.version(1).stores({ state: 'id', media: 'id' });
+    this.version(2)
+      .stores({ state: 'id', media: 'id' })
+      .upgrade((tx) =>
+        tx
+          .table('state')
+          .where('id')
+          .equals('app')
+          .modify({ version: 2, paths: [], pathEnrollments: [] }),
+      );
   }
 }
 export const db = new LocalDatabase();

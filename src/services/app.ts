@@ -13,6 +13,7 @@ import type {
   AppData,
   Clock,
   Community,
+  CommunityPath,
   Event,
   LocationSample,
   Point,
@@ -188,6 +189,37 @@ export function createApplication(clock: Clock = { now: () => Date.now() }) {
         const event = { ...input, id: id(), acceptedIds: [] };
         data.events.push(event);
         return event.id;
+      }),
+    createPath: (actor: string, input: Omit<CommunityPath, 'id'>) =>
+      update((data) => {
+        admin(data, actor, input.communityId);
+        if (input.eventIds.length !== 3 || new Set(input.eventIds).size !== 3)
+          fail('Escolha três encontros diferentes.');
+        if (
+          !input.eventIds.every((eventId) =>
+            data.events.some(
+              (event) => event.id === eventId && event.communityId === input.communityId,
+            ),
+          )
+        )
+          fail('Escolha encontros desta comunidade.');
+        const pathId = id();
+        data.paths.push({
+          ...input,
+          id: pathId,
+          title: required(input.title, 'o título', 100),
+          description: required(input.description, 'a descrição', 1000),
+        });
+        return pathId;
+      }),
+    startPath: (actor: string, pathId: string) =>
+      update((data) => {
+        const path =
+          data.paths.find((item) => item.id === pathId) ?? fail('Caminho não encontrado.');
+        member(data, actor, path.communityId);
+        if (data.pathEnrollments.some((entry) => entry.pathId === pathId && entry.userId === actor))
+          return;
+        data.pathEnrollments.push({ pathId, userId: actor, startedAt: now(data) });
       }),
     rsvp: (actor: string, eventId: string) =>
       update((data) => {

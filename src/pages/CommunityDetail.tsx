@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import {
   ArrowRightIcon,
   CalendarBlankIcon,
@@ -36,6 +36,7 @@ import {
   useBusy,
 } from '../components/ui';
 import { CommunityForm } from '../components/CommunityForm';
+import { CommunityPaths } from '../components/CommunityPaths';
 import { EventForm } from '../components/EventForm';
 import { EventCard } from '../components/EventCard';
 import { PostComposer } from '../components/PostComposer';
@@ -45,9 +46,9 @@ import { accessibleAccent } from '../lib/colors';
 export default function CommunityDetail() {
   const { id } = useParams(),
     { data, userId, user, now } = useApp(),
+    [params, setParams] = useSearchParams(),
     navigate = useNavigate();
-  const [tab, setTab] = useState('Encontros'),
-    [customize, setCustomize] = useState(false),
+  const [customize, setCustomize] = useState(false),
     [newEvent, setNewEvent] = useState(false),
     [compose, setCompose] = useState(false),
     [remove, setRemove] = useState<string>(),
@@ -55,7 +56,6 @@ export default function CommunityDetail() {
     [newChannel, setNewChannel] = useState(false),
     [channelName, setChannelName] = useState('');
   const { busy, run } = useBusy();
-  useEffect(() => setTab('Encontros'), [id]);
   const c = data.communities.find((c) => c.id === id);
   if (!c)
     return (
@@ -80,7 +80,16 @@ export default function CommunityDetail() {
   const posts = data.posts
     .filter((p) => p.communityId === c.id)
     .sort((a, b) => b.createdAt - a.createdAt);
-  const tabs = ['Encontros', 'Mural', 'Sobre', 'Membros', ...(isOwner ? ['Administrar'] : [])];
+  const tabs = [
+    { key: 'encontros', label: 'Encontros' },
+    { key: 'caminhos', label: 'Caminhos' },
+    { key: 'mural', label: 'Mural' },
+    { key: 'sobre', label: 'Sobre' },
+    { key: 'membros', label: 'Membros' },
+    ...(isOwner ? [{ key: 'administrar', label: 'Administrar' }] : []),
+  ];
+  const tab = tabs.find(({ key }) => key === params.get('tab'))?.key ?? 'encontros';
+  const setTab = (key: string) => setParams(key === 'encontros' ? {} : { tab: key });
   return (
     <div
       className="community-detail content-page"
@@ -131,7 +140,7 @@ export default function CommunityDetail() {
                 Abrir conversa
               </Link>
               {isOwner ? (
-                <Button variant="secondary" onClick={() => setTab('Administrar')}>
+                <Button variant="secondary" onClick={() => setTab('administrar')}>
                   <GearSixIcon size={18} />
                   Gerenciar
                 </Button>
@@ -159,16 +168,16 @@ export default function CommunityDetail() {
         </p>
       )}
       <div className="tabs" role="tablist" aria-label="Seções da comunidade">
-        {tabs.map((t) => (
-          <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}>
-            {t}
-            {t === 'Encontros' && <span>{events.length}</span>}
+        {tabs.map(({ key, label }) => (
+          <button key={key} role="tab" aria-selected={tab === key} onClick={() => setTab(key)}>
+            {label}
+            {key === 'encontros' && <span>{events.length}</span>}
           </button>
         ))}
       </div>
       <div className="community-columns">
         <section className="community-main">
-          {tab === 'Encontros' && (
+          {tab === 'encontros' && (
             <>
               <div className="section-heading">
                 <h2>O próximo capítulo é juntos.</h2>
@@ -194,7 +203,8 @@ export default function CommunityDetail() {
               )}
             </>
           )}
-          {tab === 'Mural' && (
+          {tab === 'caminhos' && <CommunityPaths key={c.id} community={c} events={events} />}
+          {tab === 'mural' && (
             <>
               <div className="section-heading">
                 <h2>Histórias da comunidade</h2>
@@ -215,7 +225,7 @@ export default function CommunityDetail() {
               )}
             </>
           )}
-          {tab === 'Sobre' && (
+          {tab === 'sobre' && (
             <div className="about-community">
               <h2>O que nos une</h2>
               <p>{c.description}</p>
@@ -245,7 +255,7 @@ export default function CommunityDetail() {
               )}
             </div>
           )}
-          {tab === 'Membros' && (
+          {tab === 'membros' && (
             <>
               <div className="section-heading">
                 <h2>Quem faz este lugar</h2>
@@ -284,7 +294,7 @@ export default function CommunityDetail() {
               ))}
             </>
           )}
-          {tab === 'Administrar' && isOwner && (
+          {tab === 'administrar' && isOwner && (
             <div className="admin-sections">
               <div>
                 <h2>Cuide do que vocês constroem.</h2>
@@ -334,7 +344,7 @@ export default function CommunityDetail() {
                   <h3>Gerenciar membros</h3>
                   <p>Veja quem faz parte e remova membros quando necessário.</p>
                 </div>
-                <Button variant="secondary" onClick={() => setTab('Membros')}>
+                <Button variant="secondary" onClick={() => setTab('membros')}>
                   Ver membros
                 </Button>
               </div>

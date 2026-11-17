@@ -27,6 +27,7 @@ npm run preview  # visualizar o build
 - Eventos, convites individuais, confirmação, horários de São Paulo, tempo mínimo e imagem de insígnia. Cadastro de novos points no mapa, com sugestão de locais próximos.
 - Visitas livres e presenças em eventos. Uma sessão ativa por pessoa. Simulação de tempo e raio; GPS real opcional em primeiro plano, com intervalo fresco e precisão conservadora.
 - Troféus únicos por pessoa/evento, com dados preservados após alterações e saída da comunidade.
+- Caminhos com três encontros escolhidos pelo ADM. A inscrição é voluntária e o progresso vem das insígnias, inclusive as já conquistadas. Caminhos concluídos podem ser compartilhados no feed pelo perfil.
 - Vários canais por comunidade, mensagens privadas entre duas pessoas, não lidas e moderação.
 - Feed global cronológico, posts pessoais e da comunidade, imagens, curtidas e comentários.
 - Perfis editáveis, fotos locais, seguidores/seguindo e abas de histórias e troféus.
@@ -47,6 +48,10 @@ npm run preview  # visualizar o build
 10. **Restaurar demonstração** pede confirmação e substitui todos os dados e imagens enviados pelo cenário inicial.
 
 O relógio demonstrativo avança para todos os perfis locais. Só sessões demonstrativas ativas e dentro do raio ganham os minutos explicitamente avançados. O tempo passado com a página fechada não é recompensado. Encerrar uma presença também não preenche lacunas de tempo.
+
+Para testar um Caminho no cenário inicial, abra **Aurora Running → Caminhos → Três parques com a Aurora** como Rafael e toque em **Começar caminho**. Você começa com **1 de 3**. Complete **O primeiro sol é nosso** e **Uma volta pela Água Branca** pelo check-in demonstrativo. Depois do fim dos encontros, abra **Perfil → Troféus → Meus caminhos** para conferir a conclusão e compartilhar no feed.
+
+Bancos locais de versões anteriores recebem a aba Caminhos e mantêm os dados existentes. O caminho de exemplo está disponível em um cenário novo. Para experimentá-lo com os dados atuais intactos, use outro perfil de navegador.
 
 ## Dados e limites
 

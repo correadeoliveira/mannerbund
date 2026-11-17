@@ -23,6 +23,7 @@ import {
   useBusy,
 } from '../components/ui';
 import { PostCard } from '../components/PostCard';
+import { ProfilePaths } from '../components/ProfilePaths';
 import type { Badge } from '../domain/types';
 
 export default function ProfilePage() {
@@ -169,6 +170,7 @@ export default function ProfilePage() {
             )
           ) : (
             <>
+              {own && <ProfilePaths key={userId} />}
               <p className="trophy-intro">Encontros que passam. Conquistas que ficam.</p>
               {badges.length ? (
                 <div className="trophy-grid">

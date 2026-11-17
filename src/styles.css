@@ -1655,6 +1655,107 @@ small,
   padding-left: 28px;
   border-left: 1px solid var(--border);
 }
+.path-list {
+  display: grid;
+  gap: 20px;
+}
+.path-card {
+  padding: clamp(16px, 3vw, 24px);
+  border: 1px solid var(--border);
+  border-top-color: var(--community-accent, var(--bronze));
+  border-radius: 8px;
+  background: var(--surface);
+}
+.path-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+}
+.path-header h3 {
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+.path-header p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+.path-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--bronze-light);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.path-steps {
+  margin: 18px 0;
+  padding: 0;
+  list-style: none;
+}
+.path-steps li {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+.path-steps li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: calc(50% + 15px);
+  bottom: calc(-50% + 15px);
+  left: 14px;
+  width: 1px;
+  background: var(--border);
+  pointer-events: none;
+}
+.path-step-marker {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 12px;
+}
+.path-step-complete .path-step-marker {
+  border-color: var(--bronze);
+  color: var(--bronze-light);
+}
+.path-event {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 54px;
+  padding: 8px 0;
+  overflow-wrap: anywhere;
+}
+.path-steps li + li .path-event {
+  border-top: 1px solid var(--border);
+}
+.path-event:hover strong {
+  color: var(--bronze-light);
+}
+.path-event strong {
+  display: block;
+  font-size: 13px;
+}
+.path-event > svg {
+  flex-shrink: 0;
+  color: var(--muted);
+}
+.path-actions p {
+  margin: 0;
+}
 .about-community > p {
   font-size: 15px;
   line-height: 1.9;
@@ -2135,6 +2236,56 @@ small,
 }
 .profile-content .tabs {
   margin-bottom: 24px;
+}
+.profile-paths {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.profile-paths h2 {
+  margin-bottom: 10px;
+  font-size: 17px;
+}
+.profile-paths > p {
+  margin-bottom: 0;
+  font-size: 13px;
+}
+.profile-path-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.profile-path-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  padding: 9px 0;
+}
+.profile-path-list li + li {
+  border-top: 1px solid var(--border);
+}
+.profile-path-list li > div:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.profile-path-list a {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+}
+.profile-path-list a:hover {
+  color: var(--bronze-light);
+}
+.profile-path-list p {
+  margin: 3px 0 0;
+}
+.profile-path-result {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 .trophy-intro {
   font-size: 13px;

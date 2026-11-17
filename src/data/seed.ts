@@ -11,6 +11,7 @@ import type { AppData, Community, Emblem, Conversation } from '../domain/types';
 export function seed(now = Date.now()): AppData {
   const month = seasonBounds(seasonKey(now));
   const base = Math.max(month.start, now - 3 * 24 * HOUR);
+  const pastAuroraStart = Math.min(base, now - 2 * HOUR);
   const communities: Community[] = [
     [
       'c1',
@@ -92,7 +93,7 @@ export function seed(now = Date.now()): AppData {
   }));
   const data: AppData = {
     id: 'app',
-    version: 1,
+    version: 2,
     clockOffset: 0,
     users: [
       {
@@ -290,8 +291,8 @@ export function seed(now = Date.now()): AppData {
         pointId: 'p3',
         title: 'Passos que deixam história',
         description: 'Nosso encontro de corrida no Villa-Lobos.',
-        start: base,
-        end: base + 2 * HOUR,
+        start: pastAuroraStart,
+        end: pastAuroraStart + 2 * HOUR,
         minimumMinutes: 30,
         badgeTitle: 'Primeiros passos',
         badgeDescription: 'O encontro passa. A história que construímos juntos fica.',
@@ -299,7 +300,34 @@ export function seed(now = Date.now()): AppData {
         invitedIds: ['u1', 'u2', 'u3'],
         acceptedIds: ['u1', 'u2', 'u3'],
       },
+      {
+        id: 'e5',
+        communityId: 'c1',
+        pointId: 'p8',
+        title: 'Uma volta pela Água Branca',
+        description:
+          'Uma corrida leve em grupo pelo Parque da Água Branca, com ponto de encontro na entrada principal.',
+        start: now + 2 * HOUR,
+        end: now + 3 * HOUR,
+        minimumMinutes: 30,
+        badgeTitle: 'Ritmo compartilhado',
+        badgeDescription: 'Pela manhã passada correndo juntos no Parque da Água Branca.',
+        badgeImage: '/images/medallion.jpg',
+        invitedIds: ['u1', 'u2', 'u3', 'u5'],
+        acceptedIds: [],
+      },
     ],
+    paths: [
+      {
+        id: 'aurora-tres-parques',
+        communityId: 'c1',
+        title: 'Três parques com a Aurora',
+        description:
+          'Corra com a Aurora no Villa-Lobos, no Ibirapuera e no Parque da Água Branca. Conquiste a insígnia de cada encontro para completar o caminho.',
+        eventIds: ['e4', 'e1', 'e5'],
+      },
+    ],
+    pathEnrollments: [],
     presences: [],
     badges: [],
     posts: [
@@ -422,7 +450,8 @@ export function seed(now = Date.now()): AppData {
     offset: number,
     eventId?: string,
   ) => {
-    const start = base + offset * MINUTE,
+    const start =
+        (data.events.find((event) => event.id === eventId)?.start ?? base) + offset * MINUTE,
       end = Math.min(start + hours * HOUR, now);
     if (end > start)
       data.presences.push({

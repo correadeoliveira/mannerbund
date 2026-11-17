@@ -49,6 +49,18 @@ export interface Event {
   invitedIds: Id[];
   acceptedIds: Id[];
 }
+export interface CommunityPath {
+  id: Id;
+  communityId: Id;
+  title: string;
+  description: string;
+  eventIds: [Id, Id, Id];
+}
+export interface PathEnrollment {
+  pathId: Id;
+  userId: Id;
+  startedAt: number;
+}
 export interface Interval {
   start: number;
   end: number;
@@ -116,12 +128,14 @@ export interface Ownership {
 }
 export interface AppData {
   id: 'app';
-  version: 1;
+  version: 2;
   users: User[];
   communities: Community[];
   memberships: Membership[];
   points: Point[];
   events: Event[];
+  paths: CommunityPath[];
+  pathEnrollments: PathEnrollment[];
   presences: Presence[];
   badges: Badge[];
   posts: Post[];
