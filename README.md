@@ -19,6 +19,14 @@ npm run build    # TypeScript e build de produção
 npm run preview  # visualizar o build
 ```
 
+## Visitar as guildas
+
+A página inicial abre em **Guildas**. Escolha uma das seis comunidades, toque em **Fazer parte** e converse com o anfitrião e os dois membros simulados. Confirme o convite, toque em **Cheguei ao local** e escolha quanto tempo ficar. Os 30 minutos completos rendem uma insígnia e levam a guilda a 90 minutos coletivos, superando os 75 da rival. A saída após 10 minutos registra uma visita e deixa a rival na liderança.
+
+O relógio avança pelas suas ações. Reabrir a página retoma a visita. As respostas usam roteiros locais e podem ser pausadas na conversa. Em **Meu perfil** você pode mudar seu nome, personalizar seu personagem e rever troféus e visitas. Ao trocar de comunidade, uma confirmação explica o destino do check-in atual.
+
+A visita usa o IndexedDB `mannerbund-guildas-v1`. Quando o navegador bloqueia esse armazenamento, **Continuar nesta aba** inicia uma sessão em memória. O link **Explorar o protótipo original** abre o mapa em `/mapa` com as personas e o banco original. Os endereços antigos de território, como `/?point=p1`, continuam abrindo o mapa original.
+
 ## O que funciona
 
 - Mapa MapLibre/OpenFreeMap com estilo próprio, oito points compartilhados, geofences de 100 m, busca, filtros, ranking territorial e lista utilizável quando o mapa falha.

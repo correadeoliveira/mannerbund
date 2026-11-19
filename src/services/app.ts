@@ -1,4 +1,4 @@
-import { update } from '../data/database';
+import { update as updateLocal } from '../data/database';
 import {
   awardBadges,
   canJoinEventDiscovery,
@@ -32,7 +32,13 @@ import type {
   User,
 } from '../domain/types';
 
-const id = () => crypto.randomUUID();
+function id() {
+  if (typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+  // Local HTTP previews still expose getRandomValues.
+  return Array.from(crypto.getRandomValues(new Uint8Array(16)), (byte) =>
+    byte.toString(16).padStart(2, '0'),
+  ).join('');
+}
 const fail = (message: string): never => {
   throw new Error(message);
 };
@@ -55,7 +61,7 @@ const duelForPlayer = (data: AppData, duelId: string, userId: string) =>
   data.duels.find((duel) => duel.id === duelId && isDuelPlayer(duel, userId)) ??
   fail('Duelo não encontrado.');
 
-export function createApplication(clock: Clock = { now: () => Date.now() }) {
+export function createApplication(clock: Clock = { now: () => Date.now() }, update = updateLocal) {
   const now = (data: AppData) => clock.now() + data.clockOffset;
   function settle(data: AppData) {
     for (const p of data.presences.filter((p) => !p.endedAt && p.eventId)) {

@@ -53,7 +53,16 @@ const categories = [
   { key: 'accessory', label: 'Acessórios' },
 ] as const;
 
-export function ProfileCharacter({ profile, own }: { profile: User; own: boolean }) {
+type SaveLook = (appearance: CharacterAppearance) => Promise<void>;
+export function ProfileCharacter({
+  profile,
+  own,
+  save,
+}: {
+  profile: User;
+  own: boolean;
+  save?: SaveLook;
+}) {
   const [editing, setEditing] = useState(false);
   return (
     <section className="profile-character">
@@ -67,12 +76,22 @@ export function ProfileCharacter({ profile, own }: { profile: User; own: boolean
           </Button>
         )}
       </div>
-      {own && editing && <CharacterEditor profile={profile} onClose={() => setEditing(false)} />}
+      {own && editing && (
+        <CharacterEditor profile={profile} save={save} onClose={() => setEditing(false)} />
+      )}
     </section>
   );
 }
 
-function CharacterEditor({ profile, onClose }: { profile: User; onClose: () => void }) {
+function CharacterEditor({
+  profile,
+  onClose,
+  save,
+}: {
+  profile: User;
+  onClose: () => void;
+  save?: SaveLook;
+}) {
   const { data } = useApp();
   const [draft, setDraft] = useState(() => characterLook(profile.character));
   const [category, setCategory] = useState<(typeof categories)[number]['key']>('hair');
@@ -104,7 +123,8 @@ function CharacterEditor({ profile, onClose }: { profile: User; onClose: () => v
         onSubmit={(event) => {
           event.preventDefault();
           void run(async () => {
-            await app.editCharacter(profile.id, draft);
+            if (save) await save(draft);
+            else await app.editCharacter(profile.id, draft);
             onClose();
           }, 'Personagem atualizado.');
         }}

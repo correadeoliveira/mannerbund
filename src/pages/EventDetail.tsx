@@ -84,7 +84,7 @@ export default function EventDetail() {
                 <small>Até {dateTime(event.end)} · horário de São Paulo</small>
               </span>
             </span>
-            <Link to={`/?point=${p.id}`}>
+            <Link to={`/mapa?point=${p.id}`}>
               <MapPinIcon size={20} />
               <span>
                 {p.name}

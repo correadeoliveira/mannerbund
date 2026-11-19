@@ -243,7 +243,7 @@ export default function CommunityDetail() {
               <h3>Nossos lugares neste mês</h3>
               {territories.length ? (
                 territories.map((p) => (
-                  <Link className="place-link" to={`/?point=${p.id}`} key={p.id}>
+                  <Link className="place-link" to={`/mapa?point=${p.id}`} key={p.id}>
                     <MapPinIcon size={20} />
                     <span>
                       {p.name}
@@ -385,7 +385,7 @@ export default function CommunityDetail() {
               Os minutos de cada pessoa se somam. Quando vocês superam a presença de outra
               comunidade, o lugar ganha uma nova história.
             </p>
-            <Link className="text-link" to="/">
+            <Link className="text-link" to="/mapa">
               Explorar o mapa
               <ArrowRightIcon size={16} />
             </Link>

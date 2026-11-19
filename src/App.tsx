@@ -99,7 +99,7 @@ function Shell() {
     if (main) main.scrollTop = 0;
   }, [location.pathname]);
   const nav = [
-    { to: '/', label: 'Mapa', Icon: MapTrifoldIcon },
+    { to: '/mapa', label: 'Mapa', Icon: MapTrifoldIcon },
     { to: '/comunidades', label: 'Por perto', Icon: CompassIcon },
     { to: '/conversas', label: 'Conversas', Icon: ChatCircleDotsIcon },
     { to: '/feed', label: 'Feed', Icon: NewspaperIcon },
@@ -128,7 +128,7 @@ function Shell() {
         Ir para o conteúdo
       </a>
       <aside className="sidebar">
-        <Link to="/" className="brand">
+        <Link to="/mapa" className="brand">
           <img src="/mark.svg" alt="" />
           <span>
             Mannerbund<span>Seu lugar é com gente.</span>
@@ -139,7 +139,7 @@ function Shell() {
             <NavLink
               key={to}
               to={to}
-              end={to === '/' || to === '/perfil'}
+              end={to === '/mapa' || to === '/perfil'}
               className={({ isActive }) =>
                 isActive || (to === '/perfil' && location.pathname.startsWith('/perfil/'))
                   ? 'nav-item active'
@@ -206,11 +206,13 @@ function Shell() {
             <CaretDownIcon size={15} />
           </button>
         </div>
-        <span className="sidebar-version">Feito de encontros. Desde agora.</span>
+        <Link className="sidebar-version" to="/guildas">
+          Visitar as guildas
+        </Link>
       </aside>
       <div className="app-main">
         <header className="topbar">
-          <Link to="/" className="mobile-brand">
+          <Link to="/mapa" className="mobile-brand">
             <img src="/mark.svg" alt="Mannerbund" />
             <span>Mannerbund</span>
           </Link>
@@ -252,7 +254,7 @@ function Shell() {
         <main
           id="main-content"
           className={
-            location.pathname === '/'
+            location.pathname === '/mapa'
               ? 'main-content map-main'
               : location.pathname.startsWith('/conversas')
                 ? 'main-content chat-main'
@@ -272,7 +274,7 @@ function Shell() {
         </main>
         <nav className="mobile-navigation" aria-label="Navegação no celular">
           {nav.map(({ to, label, Icon }) => (
-            <NavLink key={to} to={to} end={to === '/'}>
+            <NavLink key={to} to={to} end={to === '/mapa'}>
               <Icon size={22} />
               <span>{label}</span>
             </NavLink>
@@ -303,6 +305,9 @@ function Shell() {
               troféus dos eventos ficam no histórico.
             </p>
             <h3>Explore sem sair do PC.</h3>
+            <Link className="text-link" to="/guildas" onClick={() => setHelp(false)}>
+              Visitar as guildas
+            </Link>
             <p>
               Abra a demonstração para trocar de perfil, avançar o tempo e simular a presença dentro
               ou fora do raio. Não há cobrança ou pagamentos reais.

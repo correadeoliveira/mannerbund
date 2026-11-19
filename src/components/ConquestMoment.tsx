@@ -75,7 +75,7 @@ export function ConquestMoment() {
             title: 'Vocês conquistaram um lugar.',
             description: `${point.name} agora é território de ${community.name}.`,
             community,
-            to: `/?point=${point.id}`,
+            to: `/mapa?point=${point.id}`,
           });
         }
       }

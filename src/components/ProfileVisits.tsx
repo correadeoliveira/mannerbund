@@ -9,10 +9,11 @@ const monthLabel = new Intl.DateTimeFormat('pt-BR', {
   timeZone: 'America/Sao_Paulo',
 });
 
-export function ProfileVisits() {
+export function ProfileVisits({ simulated = false }: { simulated?: boolean } = {}) {
   const { data, userId } = useApp();
   const [params, setParams] = useSearchParams();
-  const source = params.get('origem') === 'demo' ? 'demo' : 'gps';
+  const mapPath = simulated ? '/guildas/mapa' : '/mapa';
+  const source = simulated || params.get('origem') === 'demo' ? 'demo' : 'gps';
   const setSource = (next: 'gps' | 'demo') =>
     setParams(next === 'demo' ? { tab: 'lugares', origem: 'demo' } : { tab: 'lugares' }, {
       replace: true,
@@ -23,16 +24,20 @@ export function ProfileVisits() {
     <section className="visit-history" aria-labelledby="visit-heading">
       <div className="visit-heading">
         <h2 id="visit-heading">Lugares visitados</h2>
-        <label>
-          Origem
-          <select
-            value={source}
-            onChange={(event) => setSource(event.target.value === 'demo' ? 'demo' : 'gps')}
-          >
-            <option value="gps">GPS</option>
-            <option value="demo">Demonstração</option>
-          </select>
-        </label>
+        {simulated ? (
+          <span className="meta">Presenças simuladas</span>
+        ) : (
+          <label>
+            Origem
+            <select
+              value={source}
+              onChange={(event) => setSource(event.target.value === 'demo' ? 'demo' : 'gps')}
+            >
+              <option value="gps">GPS</option>
+              <option value="demo">Demonstração</option>
+            </select>
+          </label>
+        )}
       </div>
       {months.size === 0 ? (
         <Empty
@@ -40,7 +45,7 @@ export function ProfileVisits() {
           text="Seus check-ins concluídos aparecem aqui após registrar tempo válido no local."
           action={
             <div className="visit-empty-actions">
-              <Link className="button button-primary" to="/">
+              <Link className="button button-primary" to={mapPath}>
                 Explorar o mapa
               </Link>
               {source === 'gps' && (
@@ -82,7 +87,7 @@ export function ProfileVisits() {
                       {point && (
                         <Link
                           className="button button-secondary"
-                          to={`/?point=${encodeURIComponent(point.id)}`}
+                          to={`${mapPath}?point=${encodeURIComponent(point.id)}`}
                           aria-label={`Ver no mapa: ${point.name}`}
                         >
                           Ver no mapa <ArrowRightIcon size={15} aria-hidden="true" />

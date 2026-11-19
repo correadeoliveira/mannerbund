@@ -44,7 +44,7 @@ export function PersonaPicker({ onClose }: { onClose: () => void }) {
                 async () => {
                   await app.pausePresence(userId);
                   switchUser(u.id);
-                  navigate('/');
+                  navigate('/mapa');
                   onClose();
                 },
                 `Agora você está explorando como ${u.name.split(' ')[0]}.`,
@@ -123,7 +123,7 @@ export function PresenceMonitor() {
   return (
     <div className="presence-banner">
       <span className={`status-dot ${active.lastValid ? '' : 'paused'}`} />
-      <Link to={`/?point=${point.id}`}>
+      <Link to={`/mapa?point=${point.id}`}>
         <strong>{active.lastValid ? 'Sua presença está contando' : 'Presença pausada'}</strong>
         <span>
           {point.name} · {formatHours(presenceDuration(active))} ·{' '}
@@ -289,7 +289,7 @@ export function DemoPanel() {
           onConfirm={async () => {
             await resetDemo();
             useUI.getState().switchUser('u1');
-            navigate('/');
+            navigate('/mapa');
             useUI.getState().notify('Cenário inicial restaurado.');
           }}
           onClose={() => setReset(false)}
