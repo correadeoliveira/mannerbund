@@ -617,9 +617,7 @@ small,
   border-radius: 50%;
   background: var(--bronze);
 }
-.mobile-brand,
-.mobile-navigation,
-.mobile-demo-button {
+.mobile-brand {
   display: none;
 }
 .main-content {
@@ -921,6 +919,9 @@ small,
   margin: 0;
   color: var(--muted);
   padding: 5px 20px 5px 6px;
+}
+.filter-short {
+  display: none;
 }
 .map-frame {
   position: relative;
@@ -3769,8 +3770,6 @@ progress::-webkit-progress-value {
   color: var(--muted);
   padding: 13px 20px 15px;
 }
-.chat-main:has(+ .mobile-navigation) {
-}
 .presence-banner + .main-content .chat-page {
   height: calc(100vh - 119px);
 }
@@ -5069,7 +5068,260 @@ legend {
     left: calc(50% + 85px);
   }
 }
+/* Mobile shell: a floating dock keeps the five daily destinations within thumb
+   reach; the raised mark opens everything else. */
+.mobile-dock {
+  display: none;
+}
+.mobile-dock-item {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: #a7a798;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.16s ease,
+    color 0.16s ease;
+}
+.mobile-dock-item:hover {
+  color: var(--text);
+}
+.mobile-dock-item.active {
+  color: var(--bronze-light);
+  background: #302d23;
+}
+.mobile-dock-item.dock-profile.active .avatar {
+  box-shadow: 0 0 0 2px var(--bronze);
+}
+.mobile-dock-dot {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--bronze);
+  transform: translateX(-50%);
+}
+.mobile-dock-badge {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--bronze);
+  color: #171713;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+}
+.mobile-dock-more {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  border-radius: 50%;
+  border: 1px solid #6b5a3b;
+  background: #24241e;
+  color: var(--bronze-light);
+  display: grid;
+  place-items: center;
+  transform: translateY(-12px);
+  box-shadow:
+    0 6px 18px #0007,
+    inset 0 1px 0 #ffffff08;
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    transform 0.12s ease;
+}
+.mobile-dock-more img {
+  width: 26px;
+  height: 30px;
+  display: block;
+}
+.mobile-dock-more[data-active='true'] {
+  background: #2f2c22;
+  border-color: var(--bronze);
+}
+.mobile-dock-more[data-active='true']::after {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--bronze);
+  transform: translateX(-50%);
+}
+.mobile-dock-more:active {
+  transform: translateY(-10px) scale(0.97);
+}
+
+/* "Mais" arrives as a sheet so the mark never sends anyone to a dead end. */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  overflow: hidden;
+}
+.mobile-menu::backdrop {
+  background: #0b0c09cc;
+  animation: mobile-menu-fade 0.18s ease-out;
+}
+.mobile-menu-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 82dvh;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 8px 18px calc(18px + env(safe-area-inset-bottom));
+  background: #1d1d18;
+  border-top: 1px solid #3b3a2d;
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -20px 60px #0008;
+  animation: mobile-menu-rise 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mobile-menu-grab {
+  display: block;
+  width: 38px;
+  height: 4px;
+  margin: 4px auto 10px;
+  border-radius: 4px;
+  background: #4a4839;
+}
+.mobile-menu-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.mobile-menu-head h2 {
+  font-size: 18px;
+  letter-spacing: -0.3px;
+}
+.mobile-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.mobile-menu-item {
+  min-height: 78px;
+  padding: 10px 6px;
+  border: 1px solid #333228;
+  border-radius: 14px;
+  background: #23231d;
+  color: #d6d0c1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 11px;
+  line-height: 1.2;
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease;
+}
+.mobile-menu-item > svg {
+  color: var(--bronze);
+}
+.mobile-menu-item:hover,
+.mobile-menu-item:focus-visible {
+  background: #2b2921;
+  border-color: #4b422f;
+  color: var(--bronze-light);
+}
+.mobile-menu-item.active {
+  background: #2f2b20;
+  border-color: #6d5a39;
+  color: var(--bronze-light);
+}
+.mobile-menu-profile {
+  width: 100%;
+  min-height: 56px;
+  margin-top: 14px;
+  padding: 14px 0 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+  background: none;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-align: left;
+}
+.mobile-menu-profile > span:not(.avatar) {
+  flex: 1;
+  min-width: 0;
+}
+.mobile-menu-profile strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mobile-menu-profile small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.mobile-menu-profile > svg {
+  color: var(--muted);
+}
+@keyframes mobile-menu-rise {
+  from {
+    opacity: 0.6;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes mobile-menu-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @media (max-width: 700px) {
+  :root {
+    --mobile-topbar-h: calc(56px + env(safe-area-inset-top));
+    --mobile-dock-h: 64px;
+    --mobile-dock-bottom: 14px;
+    --mobile-dock-gap: 12px;
+    --mobile-presence-h: 54px;
+    --mobile-dock-space: calc(
+      var(--mobile-dock-h) + var(--mobile-dock-bottom) + env(safe-area-inset-bottom) +
+        var(--mobile-dock-gap)
+    );
+  }
   body {
     font-size: 14px;
   }
@@ -5081,10 +5333,12 @@ legend {
     width: 100%;
   }
   .topbar {
-    height: 62px;
-    padding-inline: 17px;
+    height: var(--mobile-topbar-h);
+    padding-top: env(safe-area-inset-top);
+    padding-inline: 18px;
     position: sticky;
     top: 0;
+    border-bottom-color: #2b2b23;
   }
   .topbar-location {
     display: none;
@@ -5098,63 +5352,49 @@ legend {
     letter-spacing: -0.6px;
   }
   .mobile-brand > img {
-    width: 28px;
-    height: 32px;
+    width: 26px;
+    height: 30px;
   }
   .topbar-actions {
-    gap: 4px;
+    gap: 2px;
   }
   .topbar-actions > .help-button {
     display: none;
   }
-  .mobile-demo-button {
-    display: flex;
+  .topbar-profile {
+    display: none;
   }
   .topbar-actions > .icon-button {
-    width: 35px;
-    min-width: 35px;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
   }
-  .topbar-profile {
-    padding: 3px;
-    min-width: 35px;
-  }
-  .mobile-navigation {
+  .mobile-dock {
     display: flex;
     align-items: center;
     justify-content: space-around;
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 45;
-    background: #1d1e18;
-    border-top: 1px solid #3d3d30;
-    padding: 9px 8px max(9px, env(safe-area-inset-bottom));
-    height: calc(68px + env(safe-area-inset-bottom));
-  }
-  .mobile-navigation > a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    min-width: 58px;
-    min-height: 46px;
-    font-size: 9px;
-    color: #a7a798;
-  }
-  .mobile-navigation > a.active {
-    color: #e4c18b;
-  }
-  .mobile-navigation > a.active > svg {
-    color: var(--bronze-light);
+    left: 50%;
+    bottom: calc(var(--mobile-dock-bottom) + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    width: min(calc(100% - 28px), 430px);
+    height: var(--mobile-dock-h);
+    padding: 7px 10px;
+    background: #1e1e18;
+    border: 1px solid #3b3a2d;
+    border-radius: 18px;
+    box-shadow:
+      0 14px 38px #0009,
+      inset 0 1px 0 #ffffff05;
+    z-index: 50;
+    overflow: visible;
   }
   .main-content {
-    min-height: calc(100dvh - 130px);
-    padding-bottom: 84px;
+    min-height: calc(100dvh - var(--mobile-topbar-h));
+    padding-bottom: 0;
   }
   .content-page {
-    padding: 22px 18px 94px;
+    padding: 22px 18px calc(var(--mobile-dock-space) + 22px);
   }
   .page-heading {
     display: block;
@@ -5190,7 +5430,7 @@ legend {
     padding: 9px 12px;
   }
   .map-main {
-    padding-bottom: 75px;
+    padding-bottom: var(--mobile-dock-space);
   }
   .map-page {
     padding: 24px 16px 0;
@@ -5244,16 +5484,22 @@ legend {
     gap: 6px;
   }
   .map-filters > button {
-    font-size: 9px;
-    min-height: 32px;
-    padding-inline: 10px;
+    font-size: 10px;
+    min-height: 34px;
+    padding-inline: 12px;
+  }
+  .filter-long {
+    display: none;
+  }
+  .filter-short {
+    display: inline;
   }
   .map-filters select {
     display: none;
   }
   .map-frame {
-    height: 430px;
-    min-height: 430px;
+    height: 390px;
+    min-height: 390px;
     border-radius: 10px;
     flex: none;
   }
@@ -5328,7 +5574,7 @@ legend {
   .mobile-detail-open {
     position: fixed;
     z-index: 48;
-    bottom: calc(68px + env(safe-area-inset-bottom));
+    bottom: calc(var(--mobile-dock-h) + var(--mobile-dock-bottom) + env(safe-area-inset-bottom) + 8px);
     left: 8px;
     right: 8px;
     width: auto;
@@ -5970,12 +6216,12 @@ legend {
   }
   .chat-page {
     display: block;
-    height: calc(100dvh - 130px);
+    height: calc(100dvh - var(--mobile-topbar-h) - var(--mobile-dock-space));
     min-height: 0;
     overflow: hidden;
   }
   .chat-main {
-    padding-bottom: 68px;
+    padding-bottom: 0;
     min-height: 0;
   }
   .chat-list {
@@ -6108,7 +6354,9 @@ legend {
     line-height: 1.6;
   }
   .presence-banner + .main-content .chat-page {
-    height: calc(100dvh - 184px);
+    height: calc(
+      100dvh - var(--mobile-topbar-h) - var(--mobile-presence-h) - var(--mobile-dock-space)
+    );
   }
   .presence-banner {
     min-height: 54px;
@@ -6231,7 +6479,7 @@ legend {
   }
   .toast {
     left: 50%;
-    bottom: 85px;
+    bottom: calc(var(--mobile-dock-h) + var(--mobile-dock-bottom) + env(safe-area-inset-bottom) + 16px);
     max-width: calc(100vw - 28px);
     font-size: 11px;
     padding: 12px 11px 12px 14px;
@@ -6245,9 +6493,9 @@ legend {
   .demo-panel {
     left: 10px;
     right: 10px;
-    bottom: calc(78px + env(safe-area-inset-bottom));
+    bottom: calc(var(--mobile-dock-h) + var(--mobile-dock-bottom) + env(safe-area-inset-bottom) + 10px);
     width: auto;
-    max-height: calc(100dvh - 155px);
+    max-height: calc(100dvh - var(--mobile-topbar-h) - var(--mobile-dock-space) - 20px);
     padding: 19px 20px 15px;
     z-index: 60;
   }

@@ -121,7 +121,7 @@ export function Avatar({
         width: size,
         height: size,
         backgroundColor: user.color + '24',
-        color: user.color,
+        color: accessibleAccent(user.color, '#2E302C'),
         fontSize: size * 0.32,
       }}
     >

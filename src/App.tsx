@@ -23,6 +23,7 @@ import { isMember } from './domain/rules';
 import { useUI, act } from './state/ui';
 import { Avatar, Button, Empty, IconButton, Modal, Seal, Toast, useApp } from './components/ui';
 import { DemoPanel, PersonaPicker, PresenceMonitor } from './components/DemoPanel';
+import { MobileDock, MobileMenu } from './components/MobileNav';
 import { EventCard } from './components/EventCard';
 import { ConquestMoment } from './components/ConquestMoment';
 
@@ -84,7 +85,8 @@ function Shell() {
     demoOpen = useUI((s) => s.demoOpen),
     [persona, setPersona] = useState(false),
     [help, setHelp] = useState(false),
-    [invites, setInvites] = useState(false);
+    [invites, setInvites] = useState(false),
+    [moreOpen, setMoreOpen] = useState(false);
   const communities = data.communities.filter((c) => isMember(data, userId, c.id)),
     pending = data.events.filter(
       (e) =>
@@ -94,6 +96,7 @@ function Shell() {
         isMember(data, userId, e.communityId),
     );
   useEffect(() => {
+    setMoreOpen(false);
     window.scrollTo({ top: 0 });
     const main = document.getElementById('main-content');
     if (main) main.scrollTop = 0;
@@ -213,7 +216,7 @@ function Shell() {
       <div className="app-main">
         <header className="topbar">
           <Link to="/mapa" className="mobile-brand">
-            <img src="/mark.svg" alt="Mannerbund" />
+            <img src="/mark.svg" alt="" />
             <span>Mannerbund</span>
           </Link>
           <div className="topbar-location">
@@ -234,13 +237,6 @@ function Shell() {
               <BellIcon size={21} />
               {pending.length > 0 && <span className="notification-dot" />}
             </IconButton>
-            <button
-              className="mobile-demo-button icon-button"
-              aria-label="Abrir demonstração"
-              onClick={toggleDemo}
-            >
-              <FlaskIcon size={21} />
-            </button>
             <button
               className="topbar-profile"
               onClick={() => setPersona(true)}
@@ -272,18 +268,22 @@ function Shell() {
             <Outlet />
           </Suspense>
         </main>
-        <nav className="mobile-navigation" aria-label="Navegação no celular">
-          {nav.map(({ to, label, Icon }) => (
-            <NavLink key={to} to={to} end={to === '/mapa'}>
-              <Icon size={22} />
-              <span>{label}</span>
-            </NavLink>
-          ))}
-        </nav>
+        <MobileDock
+          unread={unread}
+          moreOpen={moreOpen}
+          onMore={() => setMoreOpen((open) => !open)}
+        />
       </div>
       <DemoPanel />
       <Toast />
       <ConquestMoment />
+      {moreOpen && (
+        <MobileMenu
+          onClose={() => setMoreOpen(false)}
+          onHelp={() => setHelp(true)}
+          onPersona={() => setPersona(true)}
+        />
+      )}{' '}
       {persona && <PersonaPicker onClose={() => setPersona(false)} />}{' '}
       {help && (
         <Modal title="Um lugar é feito de quem está nele." onClose={() => setHelp(false)}>

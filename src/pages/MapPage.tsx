@@ -137,17 +137,29 @@ export default function MapPage() {
             </IconButton>
           </div>
           <div className="map-filters">
-            <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>
-              Todos os territórios
+            <button
+              className={filter === 'all' ? 'active' : ''}
+              onClick={() => setFilter('all')}
+              aria-label="Todos os territórios"
+            >
+              <span className="filter-long">Todos os territórios</span>
+              <span className="filter-short">Todos</span>
             </button>
-            <button className={filter === 'mine' ? 'active' : ''} onClick={() => setFilter('mine')}>
-              Minhas comunidades
+            <button
+              className={filter === 'mine' ? 'active' : ''}
+              onClick={() => setFilter('mine')}
+              aria-label="Minhas comunidades"
+            >
+              <span className="filter-long">Minhas comunidades</span>
+              <span className="filter-short">Minhas</span>
             </button>
             <button
               className={filter === 'events' ? 'active' : ''}
               onClick={() => setFilter('events')}
+              aria-label="Com encontros"
             >
-              Com encontros
+              <span className="filter-long">Com encontros</span>
+              <span className="filter-short">Encontros</span>
             </button>
             <select
               aria-label="Filtrar por comunidade"
