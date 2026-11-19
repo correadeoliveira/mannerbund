@@ -290,10 +290,10 @@ describe('local application services', () => {
       name: 'Uma comunidade',
       category: 'Ao ar livre',
       description: 'Um encontro para começar.',
-      color: '#B68A4D',
+      color: '#FF28B9',
       emblem: 'sun' as const,
       cover: '/images/trail.jpg',
-      preset: 'Bronze',
+      preset: 'Rosa',
     };
     const first = await app.createCommunity('u7', input);
     await app.join('u7', 'c1');

@@ -67,15 +67,15 @@ export default function MapCanvas({
         const style = (await response.json()) as StyleSpecification;
         style.layers = style.layers.map((layer) => {
           if (layer.type === 'background')
-            return { ...layer, paint: { ...layer.paint, 'background-color': '#1b211d' } };
+            return { ...layer, paint: { ...layer.paint, 'background-color': '#012029' } };
           if (layer.type === 'fill') {
             const color = /water/.test(layer.id)
-              ? '#313a32'
+              ? '#01313F'
               : /park|wood|forest|grass/.test(layer.id)
-                ? '#253024'
+                ? '#013A3F'
                 : /building/.test(layer.id)
-                  ? '#30332a'
-                  : '#22271f';
+                  ? '#012830'
+                  : '#011F27';
             const paint = { ...layer.paint, 'fill-color': color };
             delete paint['fill-pattern'];
             return { ...layer, paint };
@@ -86,10 +86,10 @@ export default function MapCanvas({
               paint: {
                 ...layer.paint,
                 'line-color': /casing/.test(layer.id)
-                  ? '#24291f'
+                  ? '#013B4A'
                   : /motorway|trunk|primary/.test(layer.id)
-                    ? '#626049'
-                    : '#414436',
+                    ? '#01748F'
+                    : '#026276',
                 'line-opacity': /motorway|trunk|primary/.test(layer.id) ? 0.8 : 0.58,
               },
             };
@@ -98,8 +98,8 @@ export default function MapCanvas({
               ...layer,
               paint: {
                 ...layer.paint,
-                'text-color': '#aaa999',
-                'text-halo-color': '#22271f',
+                'text-color': '#93D7DD',
+                'text-halo-color': '#012029',
                 'text-halo-width': 1,
               },
             };
@@ -168,7 +168,7 @@ export default function MapCanvas({
     markers.current.forEach((marker) => marker.remove());
     const features: GeoJSON.Feature[] = points.map((p) => ({
       ...circle(p),
-      properties: { id: p.id, color: accessibleAccent(owners[p.id]?.color ?? '#898a78') },
+      properties: { id: p.id, color: accessibleAccent(owners[p.id]?.color ?? '#01748F') },
     }));
     const source = m.getSource('territories') as maplibregl.GeoJSONSource | undefined;
     if (source) source.setData({ type: 'FeatureCollection', features });
@@ -194,7 +194,7 @@ export default function MapCanvas({
       const owner = owners[p.id],
         button = document.createElement('button');
       button.className = `territory-marker ${selected === p.id ? 'marker-selected' : ''}`;
-      button.style.setProperty('--marker-color', accessibleAccent(owner?.color ?? '#A7A798'));
+      button.style.setProperty('--marker-color', accessibleAccent(owner?.color ?? '#00DADB'));
       button.setAttribute(
         'aria-label',
         `${p.name}. ${owner ? `Território de ${owner.name}` : 'Território livre'}`,
@@ -270,8 +270,8 @@ export default function MapCanvas({
       <div className="map-compass" aria-label="Norte">
         <span>N</span>
         <svg viewBox="0 0 40 40" aria-hidden="true">
-          <path d="m20 5 7 24-7-5-7 5Z" fill="#B68A4D" />
-          <path d="M20 5v19l7 5Z" fill="#75603e" />
+          <path d="m20 5 7 24-7-5-7 5Z" fill="#FF28B9" />
+          <path d="M20 5v19l7 5Z" fill="#C4007E" />
         </svg>
       </div>
     </div>

@@ -1,4 +1,4 @@
-const FALLBACK = '#B68A4D';
+const FALLBACK = '#FF28B9';
 function rgb(hex: string): number[] {
   const value = /^#[0-9a-f]{6}$/i.test(hex) ? hex : FALLBACK;
   return [1, 3, 5].map((i) => parseInt(value.slice(i, i + 2), 16));
@@ -15,11 +15,11 @@ export function contrastRatio(a: string, b: string): number {
   return (light + 0.05) / (dark + 0.05);
 }
 /** Keep the stored brand color intact; derive an accessible ink for dark surfaces. */
-export function accessibleAccent(color: string, background = '#24241E'): string {
+export function accessibleAccent(color: string, background = '#013B4A'): string {
   const safe = /^#[0-9a-f]{6}$/i.test(color) ? color : FALLBACK;
   if (contrastRatio(safe, background) >= 4.5) return safe;
   const source = rgb(safe),
-    target = rgb('#E9E2D3');
+    target = rgb('#E9FFFF');
   for (let step = 1; step <= 100; step++) {
     const value =
       '#' +
@@ -32,5 +32,5 @@ export function accessibleAccent(color: string, background = '#24241E'): string 
         .join('');
     if (contrastRatio(value, background) >= 4.5) return value;
   }
-  return '#E9E2D3';
+  return '#E9FFFF';
 }

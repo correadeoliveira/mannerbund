@@ -8,10 +8,10 @@ import {
   CompassIcon,
   CrownSimpleIcon,
   FlaskIcon,
+  HouseIcon,
   InfoIcon,
   MapPinIcon,
   MapTrifoldIcon,
-  NewspaperIcon,
   TrophyIcon,
   UserCircleIcon,
   UsersThreeIcon,
@@ -103,10 +103,10 @@ function Shell() {
     if (main) main.scrollTop = 0;
   }, [location.pathname]);
   const nav = [
+    { to: '/inicio', label: 'Início', Icon: HouseIcon },
     { to: '/mapa', label: 'Mapa', Icon: MapTrifoldIcon },
     { to: '/comunidades', label: 'Por perto', Icon: CompassIcon },
     { to: '/conversas', label: 'Conversas', Icon: ChatCircleDotsIcon },
-    { to: '/feed', label: 'Feed', Icon: NewspaperIcon },
     { to: '/perfil', label: 'Perfil', Icon: UserCircleIcon },
   ];
   const unread = data.conversations
@@ -132,7 +132,7 @@ function Shell() {
         Ir para o conteúdo
       </a>
       <aside className="sidebar">
-        <Link to="/mapa" className="brand">
+        <Link to="/inicio" className="brand">
           <img src={markSrc} alt="" />
           <span>
             Mannerbund<span>Seu lugar é com gente.</span>
@@ -143,7 +143,7 @@ function Shell() {
             <NavLink
               key={to}
               to={to}
-              end={to === '/mapa' || to === '/perfil'}
+              end={to === '/inicio' || to === '/mapa' || to === '/perfil'}
               className={({ isActive }) =>
                 isActive || (to === '/perfil' && location.pathname.startsWith('/perfil/'))
                   ? 'nav-item active'
@@ -216,7 +216,7 @@ function Shell() {
       </aside>
       <div className="app-main">
         <header className="topbar">
-          <Link to="/mapa" className="mobile-brand">
+          <Link to="/inicio" className="mobile-brand">
             <img src={markSrc} alt="" />
             <span>Mannerbund</span>
           </Link>
@@ -349,12 +349,12 @@ function Shell() {
     </div>
   );
 }
+export const HomePage = lazy(() => import('./pages/HomePage'));
 export const MapPage = lazy(() => import('./pages/MapPage'));
 export const CommunitiesPage = lazy(() => import('./pages/CommunitiesPage'));
 export const CommunityDetail = lazy(() => import('./pages/CommunityDetail'));
 export const EventDetail = lazy(() => import('./pages/EventDetail'));
 export const ChatPage = lazy(() => import('./pages/ChatPage'));
-export const FeedPage = lazy(() => import('./pages/FeedPage'));
 export const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 export const SeasonPage = lazy(() => import('./pages/SeasonPage'));
 export const PremiumPage = lazy(() => import('./pages/PremiumPage'));

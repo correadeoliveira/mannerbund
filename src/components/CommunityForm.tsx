@@ -6,12 +6,12 @@ import { app } from '../services/app';
 import { Button, EmblemIcon, ImageUpload, Media, Modal, Seal, useApp, useBusy } from './ui';
 
 export const presets = [
-  { name: 'Bronze', color: '#B68A4D', cover: '/images/running.jpg' },
-  { name: 'Pátina', color: '#779389', cover: '/images/trail.jpg' },
-  { name: 'Argila', color: '#A97468', cover: '/images/pottery.jpg' },
-  { name: 'Areia', color: '#BAA274', cover: '/images/table.jpg' },
-  { name: 'Pedra', color: '#87959E', cover: '/images/yoga.jpg' },
-  { name: 'Oliva', color: '#8D9471', cover: '/images/city.jpg' },
+  { name: 'Rosa', color: '#FF28B9', cover: '/images/running.jpg' },
+  { name: 'Magenta', color: '#C4007E', cover: '/images/pottery.jpg' },
+  { name: 'Turquesa', color: '#01748F', cover: '/images/trail.jpg' },
+  { name: 'Ciano', color: '#00DADB', cover: '/images/table.jpg' },
+  { name: 'Noite', color: '#01313F', cover: '/images/yoga.jpg' },
+  { name: 'Rosa neon', color: '#FF28B9', cover: '/images/city.jpg' },
 ];
 export const categories = [
   'Esporte',
@@ -37,7 +37,7 @@ export function CommunityForm({
   const [name, setName] = useState(community?.name ?? ''),
     [description, setDescription] = useState(community?.description ?? ''),
     [category, setCategory] = useState(community?.category ?? categories[0]),
-    [preset, setPreset] = useState(community?.preset ?? 'Bronze'),
+    [preset, setPreset] = useState(community?.preset ?? 'Rosa'),
     [color, setColor] = useState(community?.color ?? presets[0].color),
     [emblem, setEmblem] = useState<Emblem>(community?.emblem ?? 'sun'),
     [cover, setCover] = useState(community?.cover ?? presets[0].cover);

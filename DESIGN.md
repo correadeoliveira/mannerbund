@@ -1,18 +1,18 @@
 ---
 name: Mannerbund
-description: Everyday community life in bronze, stone and cartography.
+description: Everyday community life in deep teal, neon and cartography.
 colors:
-  bg: '#171713'
-  surface: '#24241e'
-  raised: '#303028'
-  bronze: '#b68a4d'
-  bronze-light: '#d3b17c'
-  text: '#e9e2d3'
-  muted: '#a7a798'
-  border: '#38382e'
-  focus: '#d3b17c'
-  map-canvas: '#1b211d'
-  territory-panel: '#1d1d18'
+  bg: '#011a21'
+  surface: '#01313f'
+  raised: '#01414f'
+  bronze: '#ff28b9'
+  bronze-light: '#00dadb'
+  text: '#e9ffff'
+  muted: '#93d7dd'
+  border: '#026276'
+  focus: '#00dadb'
+  map-canvas: '#012029'
+  territory-panel: '#01313f'
 typography:
   display:
     {
@@ -61,7 +61,7 @@ components:
     }
   button-secondary:
     {
-      backgroundColor: '#2d2d25',
+      backgroundColor: '#012029',
       textColor: '{colors.text}',
       typography: '{typography.button}',
       rounded: '{rounded.control}',
@@ -77,8 +77,8 @@ components:
     }
   button-danger:
     {
-      backgroundColor: '#653d37',
-      textColor: '#f7dfd7',
+      backgroundColor: '#3d0028',
+      textColor: '{colors.text}',
       typography: '{typography.button}',
       rounded: '{rounded.control}',
       padding: '10px 16px',
@@ -110,42 +110,44 @@ components:
 
 ## Overview
 
-**Creative North Star: "Bronze, stone and cartography"**
+**Creative North Star: "Teal profundo, neon e cartografia"**
 
-An everyday community app whose defining canvas is the territorial map. Aged bronze, dark stone, subtle cartographic details and medallion trophies supply the material character; familiar controls and plain Portuguese keep the experience approachable.
+An everyday community app whose defining canvas is the territorial map. Deep teal surfaces, cyan cartographic details, magenta and neon-pink accents supply the night-time urban character; familiar controls and plain Portuguese keep the experience approachable.
 
-The angular M in a six-sided seal anchors the identity. Subdued cover photography carries living community activity, while bronze-medallion artwork carries the ancient material. Community themes change accent, cover and emblem within a stable navigation and accessibility system.
+The angular M in a six-sided seal anchors the identity. Subdued cover photography carries living community activity, while medallion trophies carry the ancient material. Community themes change accent, cover and emblem within a stable navigation and accessibility system.
 
 **Key Characteristics:**
 
-- Dark stone surfaces with restrained bronze emphasis.
+- Deep teal surfaces with restrained cyan emphasis and neon pink reserved for primary actions.
 - Cartographic ownership reinforced by symbols and names.
 - Compact Manrope typography and familiar, keyboard-accessible controls.
 - Local artwork, subdued photography and explicitly identified demonstration content.
 
 ## Colors
 
-Bronze is the action accent; warm stone neutrals keep the map and community identity legible. Frontmatter records the actual CSS palette; `src/tokens.css` remains the implementation source.
+Neon pink is the primary action accent; cyan carries links, focus and secondary emphasis; deep teal neutrals keep the map and community identity legible. Frontmatter records the actual CSS palette; `src/tokens.css` remains the implementation source.
 
 ### Primary
 
-- **Aged Bronze** (`bronze`): meaningful actions, progress, caret and selected identity details.
-- **Light Bronze** (`bronze-light`): emphasized links, active icons and highlighted totals. `focus` uses this same visible tone.
+- **Rosa neon** (`bronze`): primary buttons, progress, active filter borders, notification dots and selected identity details.
+- **Ciano** (`bronze-light`): emphasized links, active icons, focus and highlighted totals.
+- **Magenta profundo** (`accent-deep`): pressed and destructive states.
+- **Rosa de texto** (`accent-text`): small danger copy and error icons, lightened for AA contrast on teal surfaces.
 
 ### Neutral
 
-- **Basalt** (`bg`), **Raised Stone** (`surface`) and **Lifted Stone** (`raised`): shell, cards and interactive tonal layers.
-- **Warm Parchment** (`text`) and **Muted Limestone** (`muted`): primary content and supporting copy.
-- **Stone Edge** (`border`): thin dividers and control boundaries.
-- **Cartographic Ground** (`map-canvas`) and **Territory Stone** (`territory-panel`): observed map and detail-panel surfaces, defined in `src/styles.css`.
+- **Teal profundo** (`bg`, `surface`) and **Teal elevado** (`raised`): shell, cards and interactive tonal layers.
+- **Quase branco ciano** (`text`) and **Ciano suave** (`muted`): primary content and supporting copy.
+- **Borda teal** (`border`): thin dividers and control boundaries.
+- **Cartographic Ground** (`map-canvas`) and **Territory Teal** (`territory-panel`): observed map and detail-panel surfaces, defined in `src/styles.css`.
 
-**The Readable Accent Rule.** Preserve the raw community color in storage and the color editor. Derive visible seals, territorial overlays, dots and community emphasis with `accessibleAccent`: retain colors that reach 4.5:1 against the surface; otherwise blend toward the text color until they do. Invalid input falls back to bronze. Never replace the stored choice with its derived ink.
+**The Readable Accent Rule.** Preserve the raw community color in storage and the color editor. Derive visible seals, territorial overlays, dots and community emphasis with `accessibleAccent`: retain colors that reach 4.5:1 against the surface; otherwise blend toward the text color until they do. Invalid input falls back to neon pink. Never replace the stored choice with its derived ink.
 
 ## Typography
 
 **Display Font / Body Font:** Manrope, with sans-serif fallback. Local font files supply weights 400, 500, 600 and 700; no serif or mono companion is used.
 
-**Character:** Clear, compact and contemporary. Tight title tracking balances the bronze material without adopting ornamental lettering. Text and icons carry meaning together.
+**Character:** Clear, compact and contemporary. Tight title tracking balances the deep teal surfaces and neon accents without adopting ornamental lettering. Text and icons carry meaning together.
 
 - **Display:** base h1 follows the frontmatter display role; page headings typically use 28px, with map headings changing from 24–28px on desktop to 27px on mobile.
 - **Headline / Title:** frontmatter roles serve section and component headings. Territory titles use 21–24px according to width.
@@ -168,7 +170,7 @@ Use the spacing scale for rhythm, with observed 18–30px adjustments where the 
 
 ## Elevation & Depth
 
-Depth primarily comes from tonal stone layers and thin borders. Resting cards stay flat. Shadows are structural: small medallion separation over the map, and stronger separation for floating feedback, dialogs and bottom panels. Do not add ambient glows or glass.
+Depth primarily comes from tonal teal layers and thin borders. Resting cards stay flat. Shadows are structural: small medallion separation over the map, and stronger separation for floating feedback, dialogs and bottom panels. Do not add ambient glows or glass.
 
 ### Shadow Vocabulary
 
@@ -187,23 +189,23 @@ Controls are gently rounded; map filters and fields use slightly tighter corners
 
 ### Buttons
 
-Familiar and restrained. The base button has a 44px minimum height, 9px icon gap and frontmatter padding. Primary uses bronze with basalt ink; hover lightens it to `#cda36b`. Secondary has a stone border and lightens on hover. Ghost starts transparent and gains a surface fill. Danger uses muted clay with pale text. Disabled buttons reduce opacity to 0.45. Some secondary mobile controls have smaller observed dimensions; the 44px map-filter and primary map-action floors remain binding.
+Familiar and restrained. The base button has a 44px minimum height, 9px icon gap and frontmatter padding. Primary uses neon pink with deep-teal ink; hover lightens it to `#ff5cc8`. Secondary has a teal border and lightens on hover. Ghost starts transparent and gains a surface fill. Danger uses a deep magenta surface with light text. Disabled buttons reduce opacity to 0.45. Some secondary mobile controls have smaller observed dimensions; the 44px map-filter and primary map-action floors remain binding.
 
 ### Chips
 
-Map filters are gently squared outlined buttons with 44px minimum height. Selected filters use a warm bronze-tinted fill, brighter bronze text and a stronger border. They remain horizontally scrollable; the community select follows available width.
+Map filters are gently squared outlined buttons with 44px minimum height. Selected filters use a deep teal fill, cyan text and a neon-pink border. They remain horizontally scrollable; the community select follows available width.
 
 ### Cards / Containers
 
-Community cards use raised stone, clipped rounded corners and 20px content padding. Subdued photographic covers use saturation 0.7. Their hover changes tone without adding shadow. Territory sections use dividers and 22px base padding rather than nested decorative cards.
+Community cards use raised teal, clipped rounded corners and 20px content padding. Subdued photographic covers use saturation 0.7. Their hover changes tone without adding shadow. Territory sections use dividers and 22px base padding rather than nested decorative cards.
 
 ### Inputs / Fields
 
-Fields have a dark fill, thin stone stroke, 44px minimum height and 11px 13px padding. Search is a distinct 44px flex control with an inline icon. General keyboard focus uses a 2px light-bronze outline at 4px offset; search uses a 1px outline around its container at 2px offset. Keep visible labels, recovery text and keyboard operation.
+Fields have a dark fill, thin teal stroke, 44px minimum height and 11px 13px padding. Search is a distinct 44px flex control with an inline icon. General keyboard focus uses a 2px cyan outline at 4px offset; search uses a 1px outline around its container at 2px offset. Keep visible labels, recovery text and keyboard operation.
 
 ### Navigation
 
-Desktop items have a 46px minimum height, muted ink and a subtle stone hover. Active items gain a warmer stone fill, light text and bronze icons. Mobile navigation keeps five labeled destinations with 46px minimum item height and safe-area padding.
+Desktop items have a 46px minimum height, muted ink and a subtle teal hover. Active items gain a raised teal fill, light text and cyan icons. Mobile navigation keeps five labeled destinations with 46px minimum item height and safe-area padding.
 
 ### Territory medallions and conquest feedback
 
@@ -213,7 +215,7 @@ Double-ring medallions use the derived community accent, a small structural shad
 
 ### Do:
 
-- **Do** reserve bronze for meaningful actions, territory progress and emphasis.
+- **Do** reserve neon pink for primary actions, alerts and selected states; use cyan for links, focus and supporting emphasis.
 - **Do** reinforce ownership with names and emblems as well as color.
 - **Do** preserve raw community accents and derive readable display ink.
 - **Do** retain 12px essential map metadata, 44px map filters and visible keyboard focus at every width.

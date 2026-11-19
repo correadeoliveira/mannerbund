@@ -303,7 +303,7 @@ export default function MapPage() {
                       style={{
                         width: `${(s.duration / total) * 100}%`,
                         background: accessibleAccent(
-                          data.communities.find((c) => c.id === s.communityId)?.color ?? '#A7A798',
+                          data.communities.find((c) => c.id === s.communityId)?.color ?? '#00DADB',
                         ),
                       }}
                       title={`${data.communities.find((c) => c.id === s.communityId)?.name}: ${formatHours(s.duration)}`}

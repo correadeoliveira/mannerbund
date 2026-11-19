@@ -4,7 +4,7 @@ import { isMember } from './rules';
 export const characterOptions = {
   hair: { short: 'Curto', braided: 'Trançado', shaved: 'Raspado' },
   outfit: { tunic: 'Túnica', cloak: 'Capa', vest: 'Colete' },
-  background: { bronze: 'Bronze', patina: 'Pátina', clay: 'Argila', stone: 'Pedra' },
+  background: { bronze: 'Rosa', patina: 'Ciano', clay: 'Magenta', stone: 'Noite' },
   skin: { light: 'Clara', medium: 'Média', deep: 'Escura' },
   face: { serene: 'Sereno', smiling: 'Sorridente', bold: 'Marcante' },
   accessory: { none: 'Sem acessório', hoop: 'Argola', pendant: 'Pingente' },

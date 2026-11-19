@@ -6,7 +6,7 @@ Um protótipo local de comunidades que conquistam lugares pelo tempo que passam 
 
 O protótipo está disponível para qualquer pessoa em:
 
-- **Aplicativo principal:** <https://saif-cy.github.io/mannerbund/mapa>
+- **Aplicativo principal:** <https://saif-cy.github.io/mannerbund/inicio>
 - **Guildas:** <https://saif-cy.github.io/mannerbund/>
 
 É uma demonstração estática: cada visitante tem seus próprios dados no navegador, sem cadastro nem sincronização entre pessoas. O mapa e a localização real funcionam porque o GitHub Pages entrega o app por HTTPS. Detalhes de build e limites em [DEPLOY.md](DEPLOY.md).
@@ -30,7 +30,7 @@ npm run preview  # visualizar o build
 
 ## Visitar as guildas
 
-A página inicial abre em **Guildas**. Escolha uma das seis comunidades, toque em **Fazer parte** e converse com o anfitrião e os dois membros simulados. Confirme o convite, toque em **Cheguei ao local** e escolha quanto tempo ficar. Os 30 minutos completos rendem uma insígnia e levam a guilda a 90 minutos coletivos, superando os 75 da rival. A saída após 10 minutos registra uma visita e deixa a rival na liderança.
+O app abre em **Início**, com as histórias da sua comunidade e uma aba para descobrir outras. Para visitar as guildas, use **Mais → Guildas** no celular ou **Visitar as guildas** na barra lateral. Escolha uma das seis comunidades, toque em **Fazer parte** e converse com o anfitrião e os dois membros simulados. Confirme o convite, toque em **Cheguei ao local** e escolha quanto tempo ficar. Os 30 minutos completos rendem uma insígnia e levam a guilda a 90 minutos coletivos, superando os 75 da rival. A saída após 10 minutos registra uma visita e deixa a rival na liderança.
 
 O relógio avança pelas suas ações. Reabrir a página retoma a visita. As respostas usam roteiros locais e podem ser pausadas na conversa. Em **Meu perfil** você pode mudar seu nome, personalizar seu personagem e rever troféus e visitas. Ao trocar de comunidade, uma confirmação explica o destino do check-in atual.
 
@@ -51,7 +51,7 @@ A visita usa o IndexedDB `mannerbund-guildas-v1`. Quando o navegador bloqueia es
 - Troféus únicos por pessoa/evento, com dados preservados após alterações e saída da comunidade.
 - Caminhos com três encontros escolhidos pelo ADM. A inscrição é voluntária e o progresso vem das insígnias, inclusive as já conquistadas. Caminhos concluídos podem ser compartilhados no feed pelo perfil.
 - Vários canais por comunidade, mensagens privadas entre duas pessoas, não lidas e moderação.
-- Feed global cronológico, posts pessoais e da comunidade, imagens, curtidas e comentários.
+- Tela inicial com duas abas: histórias da sua comunidade e de outras comunidades. Posts pessoais e da comunidade, imagens, curtidas e comentários.
 - Perfis editáveis, fotos locais, seguidores/seguindo e abas de histórias e troféus.
 - Temporadas mensais, ranking, histórico e fundo fictício de R$ 1.000 por comunidade, dividido proporcionalmente às horas.
 - Plano gratuito com uma comunidade própria e uma de outro usuário; Premium demonstrativo remove os dois limites.

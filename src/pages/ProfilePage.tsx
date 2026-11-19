@@ -46,7 +46,7 @@ export default function ProfilePage() {
       <Empty
         title="Perfil não encontrado"
         text="Essa pessoa não está no cenário local."
-        action={<Link to="/feed">Voltar ao feed</Link>}
+        action={<Link to="/inicio">Voltar ao início</Link>}
       />
     );
   const own = profile.id === userId,

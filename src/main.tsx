@@ -13,12 +13,12 @@ import '@fontsource/manrope/latin-600.css';
 import '@fontsource/manrope/latin-700.css';
 import {
   AppRoot,
+  HomePage,
   MapPage,
   CommunitiesPage,
   CommunityDetail,
   EventDetail,
   ChatPage,
-  FeedPage,
   ProfilePage,
   SeasonPage,
   PremiumPage,
@@ -30,7 +30,7 @@ import { markSrc } from './lib/assets';
 
 function Entry() {
   const [params] = useSearchParams();
-  return <Navigate replace to={params.has('point') ? '/mapa?' + params.toString() : '/guildas'} />;
+  return <Navigate replace to={params.has('point') ? '/mapa?' + params.toString() : '/inicio'} />;
 }
 
 const routeError = (
@@ -64,13 +64,14 @@ const router = createBrowserRouter(
       element: <AppRoot />,
       errorElement: routeError,
       children: [
+        { path: '/inicio', element: <HomePage /> },
         { path: '/mapa', element: <MapPage /> },
         { path: '/comunidades', element: <CommunitiesPage /> },
         { path: '/comunidades/:id', element: <CommunityDetail /> },
         { path: '/eventos/:id', element: <EventDetail /> },
         { path: '/conversas', element: <ChatPage /> },
         { path: '/conversas/:id', element: <ChatPage /> },
-        { path: '/feed', element: <FeedPage /> },
+        { path: '/feed', element: <Navigate replace to="/inicio" /> },
         { path: '/perfil', element: <ProfilePage /> },
         { path: '/perfil/:id', element: <ProfilePage /> },
         { path: '/temporada', element: <SeasonPage /> },

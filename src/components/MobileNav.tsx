@@ -6,18 +6,18 @@ import {
   CompassIcon,
   CrownSimpleIcon,
   FlaskIcon,
+  HouseIcon,
   InfoIcon,
   MapTrifoldIcon,
-  NewspaperIcon,
+  SquaresFourIcon,
   TrophyIcon,
   UsersThreeIcon,
   XIcon,
 } from '@phosphor-icons/react';
 import { Avatar, IconButton, useApp } from './ui';
 import { useUI } from '../state/ui';
-import { markSrc } from '../lib/assets';
 
-const secondaryRoutes = ['/feed', '/temporada', '/premium', '/eventos'];
+const secondaryRoutes = ['/mapa', '/comunidades', '/temporada', '/premium', '/eventos', '/guildas'];
 
 function isSecondary(pathname: string) {
   return secondaryRoutes.some((route) => pathname === route || pathname.startsWith(`${route}/`));
@@ -33,23 +33,53 @@ export function MobileDock({
   onMore: () => void;
 }) {
   const { user } = useApp(),
-    { pathname } = useLocation();
+    { pathname, search } = useLocation();
+  const homeTab =
+    pathname === '/inicio' && new URLSearchParams(search).get('aba') === 'outras'
+      ? 'outras'
+      : 'minha';
+
   return (
     <nav className="mobile-dock" aria-label="Navegação no celular">
-      <NavLink
-        to="/mapa"
-        end
-        className={({ isActive }) => `mobile-dock-item ${isActive ? 'active' : ''}`}
-        aria-label="Mapa"
-        title="Mapa"
+      <Link
+        to="/inicio"
+        className={`mobile-dock-item ${pathname === '/inicio' && homeTab === 'minha' ? 'active' : ''}`}
+        aria-label="Início"
+        title="Início"
       >
-        {({ isActive }) => (
-          <>
-            <MapTrifoldIcon size={22} weight={isActive ? 'fill' : 'regular'} aria-hidden="true" />
-            {isActive && <span className="mobile-dock-dot" aria-hidden="true" />}
-          </>
-        )}
-      </NavLink>
+        <HouseIcon
+          size={21}
+          weight={pathname === '/inicio' && homeTab === 'minha' ? 'fill' : 'regular'}
+          aria-hidden="true"
+        />
+        <span className="mobile-dock-label">Início</span>
+      </Link>
+      <Link
+        to="/inicio?aba=outras"
+        className={`mobile-dock-item ${pathname === '/inicio' && homeTab === 'outras' ? 'active' : ''}`}
+        aria-label="Outras comunidades"
+        title="Outras comunidades"
+      >
+        <UsersThreeIcon
+          size={21}
+          weight={pathname === '/inicio' && homeTab === 'outras' ? 'fill' : 'regular'}
+          aria-hidden="true"
+        />
+        <span className="mobile-dock-label">Outras</span>
+      </Link>
+      <button
+        type="button"
+        className={`mobile-dock-more ${moreOpen ? 'open' : ''}`}
+        data-active={isSecondary(pathname) || undefined}
+        aria-label="Abrir todas as funções"
+        aria-haspopup="dialog"
+        aria-expanded={moreOpen}
+        title="Mais funções"
+        onClick={onMore}
+      >
+        <SquaresFourIcon size={22} weight={moreOpen ? 'fill' : 'regular'} aria-hidden="true" />
+        <span className="mobile-dock-more-label">Mais</span>
+      </button>
       <NavLink
         to="/conversas"
         className={({ isActive }) => `mobile-dock-item ${isActive ? 'active' : ''}`}
@@ -59,7 +89,7 @@ export function MobileDock({
         {({ isActive }) => (
           <>
             <ChatCircleDotsIcon
-              size={22}
+              size={21}
               weight={isActive ? 'fill' : 'regular'}
               aria-hidden="true"
             />
@@ -68,32 +98,7 @@ export function MobileDock({
                 {unread > 99 ? '99+' : unread}
               </span>
             )}
-            {isActive && <span className="mobile-dock-dot" aria-hidden="true" />}
-          </>
-        )}
-      </NavLink>
-      <button
-        type="button"
-        className={`mobile-dock-more ${moreOpen ? 'open' : ''}`}
-        data-active={isSecondary(pathname) || undefined}
-        aria-label="Mais opções"
-        aria-haspopup="dialog"
-        aria-expanded={moreOpen}
-        title="Mais opções"
-        onClick={onMore}
-      >
-        <img src={markSrc} alt="" />
-      </button>
-      <NavLink
-        to="/comunidades"
-        className={({ isActive }) => `mobile-dock-item ${isActive ? 'active' : ''}`}
-        aria-label="Comunidades"
-        title="Comunidades"
-      >
-        {({ isActive }) => (
-          <>
-            <UsersThreeIcon size={22} weight={isActive ? 'fill' : 'regular'} aria-hidden="true" />
-            {isActive && <span className="mobile-dock-dot" aria-hidden="true" />}
+            <span className="mobile-dock-label">Conversas</span>
           </>
         )}
       </NavLink>
@@ -103,12 +108,8 @@ export function MobileDock({
         aria-label="Seu perfil"
         title="Seu perfil"
       >
-        {({ isActive }) => (
-          <>
-            <Avatar user={user} size={24} />
-            {isActive && <span className="mobile-dock-dot" aria-hidden="true" />}
-          </>
-        )}
+        <Avatar user={user} size={22} />
+        <span className="mobile-dock-label">Perfil</span>
       </NavLink>
     </nav>
   );
@@ -153,15 +154,22 @@ export function MobileMenu({
       <div className="mobile-menu-panel">
         <span className="mobile-menu-grab" aria-hidden="true" />
         <div className="mobile-menu-head">
-          <h2 id={titleId}>Mais</h2>
+          <div>
+            <h2 id={titleId}>Mais</h2>
+            <p>Mapa, comunidades e o resto do seu mundo.</p>
+          </div>
           <IconButton label="Fechar mais opções" onClick={onClose}>
             <XIcon size={20} />
           </IconButton>
         </div>
         <div className="mobile-menu-grid">
-          <Link to="/feed" className="mobile-menu-item" onClick={onClose}>
-            <NewspaperIcon size={24} aria-hidden="true" />
-            <span>Feed</span>
+          <Link to="/mapa" className="mobile-menu-item" onClick={onClose}>
+            <MapTrifoldIcon size={24} aria-hidden="true" />
+            <span>Mapa</span>
+          </Link>
+          <Link to="/comunidades" className="mobile-menu-item" onClick={onClose}>
+            <CompassIcon size={24} aria-hidden="true" />
+            <span>Comunidades</span>
           </Link>
           <Link to="/temporada" className="mobile-menu-item" onClick={onClose}>
             <TrophyIcon size={24} aria-hidden="true" />
@@ -174,6 +182,10 @@ export function MobileMenu({
           <Link to="/guildas" className="mobile-menu-item" onClick={onClose}>
             <CompassIcon size={24} aria-hidden="true" />
             <span>Guildas</span>
+          </Link>
+          <Link to="/conversas" className="mobile-menu-item" onClick={onClose}>
+            <ChatCircleDotsIcon size={24} aria-hidden="true" />
+            <span>Conversas</span>
           </Link>
           <button
             type="button"

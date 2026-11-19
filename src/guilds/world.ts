@@ -38,7 +38,7 @@ export function seedGuilds(date = Date.now()): GuildWorld {
         name: 'Visitante',
         handle: 'visitante',
         bio: 'Explorando as guildas de São Paulo.',
-        color: '#d3b17c',
+        color: '#00DADB',
         premium: false,
       },
     ],

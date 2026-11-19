@@ -1,13 +1,50 @@
 :root {
+  /* Paleta base extraída da referência: ciano, teal profundo, turquesa, magenta e rosa neon. */
+  --palette-cyan: #00dadb;
+  --palette-teal-deep: #01313f;
+  --palette-teal: #01748f;
+  --palette-magenta: #c4007e;
+  --palette-pink: #ff28b9;
+
+  /* Fundos em variações tonais do teal profundo. */
+  --bg: #011a21;
+  --bg-soft: #012029;
+  --surface: #01313f;
+  --surface-2: #013b4a;
+  --surface-3: #014756;
+  --raised: #01414f;
+
+  /* Bordas e divisores. */
+  --border: #026276;
+  --border-strong: var(--palette-teal);
+
+  /* Texto: quase branco com leve ciano para contraste AA. */
+  --text: #e9ffff;
+  --text-soft: #c8f2f4;
+  --muted: #93d7dd;
+  --muted-soft: #6fb8c0;
+
+  /* Ações principais em rosa; links e foco em ciano. */
+  --accent: var(--palette-pink);
+  --accent-2: var(--palette-cyan);
+  --accent-deep: var(--palette-magenta);
+  --accent-hover: #ff5cc8;
+  --accent-text: #ff8ad0;
+  --accent-glow: rgb(255 40 185 / 0.35);
+  --ink-on-accent: #011a21;
+
+  /* Aliases mantidos para os componentes existentes. */
+  --bronze: var(--accent);
+  --bronze-light: var(--accent-2);
+  --focus: var(--accent-2);
+
+  /* Profundidade e estados. */
+  --shadow: rgb(0 12 16 / 0.55);
+  --highlight: rgb(233 255 255 / 0.04);
+  --danger-bg: #3d0028;
+  --success-bg: #01313f;
+  --warning-bg: #3d0028;
+
   --font: 'Manrope', sans-serif;
-  --bg: #171713;
-  --surface: #24241e;
-  --raised: #303028;
-  --bronze: #b68a4d;
-  --bronze-light: #d3b17c;
-  --text: #e9e2d3;
-  --muted: #a7a798;
-  --border: #38382e;
-  --focus: #d3b17c;
   color-scheme: dark;
 }
