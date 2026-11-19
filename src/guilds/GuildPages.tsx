@@ -18,6 +18,7 @@ import { guilds, visitorId } from './scripts';
 import { guestGuild, worldTime } from './world';
 import { GuildProvider } from './runtime';
 import { useGuild } from './context';
+import { markSrc, publicAsset } from '../lib/assets';
 import './guilds.css';
 
 const MapCanvas = lazy(() => import('../components/MapCanvas'));
@@ -35,7 +36,7 @@ function Layout() {
       <header className="guild-bar">
         <div>
           <Link to="/guildas" className="guild-brand">
-            <img src="/mark.svg" alt="" />
+            <img src={markSrc} alt="" />
             Mannerbund
           </Link>
           <nav aria-label="Visita às guildas">
@@ -109,7 +110,7 @@ export function Directory() {
               to={'/guildas/' + c.id}
             >
               <div className="guild-cover">
-                <img src={c.cover} alt="" loading={index === 0 ? 'eager' : 'lazy'} />
+                <img src={publicAsset(c.cover)} alt="" loading={index === 0 ? 'eager' : 'lazy'} />
                 <Seal community={c} size={index === 0 ? 54 : 30} />
               </div>
               <div className="guild-entry">

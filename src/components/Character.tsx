@@ -5,6 +5,7 @@ import { availableBrooches, characterLook, characterOptions } from '../domain/pl
 import { isMember } from '../domain/rules';
 import type { CharacterAppearance, User } from '../domain/types';
 import { accessibleAccent } from '../lib/colors';
+import { publicAsset } from '../lib/assets';
 import { app } from '../services/app';
 import { Button, EmblemIcon, Modal, useApp, useBusy } from './ui';
 
@@ -29,7 +30,13 @@ export function CharacterPortrait({
       aria-hidden={label ? undefined : true}
     >
       {layers.map((layer) => (
-        <img key={layer} src={`/images/character/${layer}.png`} alt="" width={512} height={512} />
+        <img
+          key={layer}
+          src={publicAsset(`images/character/${layer}.png`)}
+          alt=""
+          width={512}
+          height={512}
+        />
       ))}
       {brooch && (
         <span

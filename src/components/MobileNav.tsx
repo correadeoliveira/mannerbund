@@ -15,6 +15,7 @@ import {
 } from '@phosphor-icons/react';
 import { Avatar, IconButton, useApp } from './ui';
 import { useUI } from '../state/ui';
+import { markSrc } from '../lib/assets';
 
 const secondaryRoutes = ['/feed', '/temporada', '/premium', '/eventos'];
 
@@ -81,7 +82,7 @@ export function MobileDock({
         title="Mais opções"
         onClick={onMore}
       >
-        <img src="/mark.svg" alt="" />
+        <img src={markSrc} alt="" />
       </button>
       <NavLink
         to="/comunidades"

@@ -26,6 +26,7 @@ import { act } from '../state/ui';
 import { actors, channelId, guilds, visitorId, type GuildScript } from './scripts';
 import { nextCue } from './experience';
 import { useGuild } from './context';
+import { publicAsset } from '../lib/assets';
 import { guestGuild, worldTime, type Visit } from './world';
 
 function useConversationCue(id: string, key?: string) {
@@ -375,7 +376,7 @@ export function GuildVisit() {
         <ArrowLeftIcon /> Todas as guildas
       </Link>
       <header className="guild-banner">
-        <img src={c.cover} alt="" />
+        <img src={publicAsset(c.cover)} alt="" />
         <div>
           <Seal community={c} size={60} />
           <p>{c.category}</p>

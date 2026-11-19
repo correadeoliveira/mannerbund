@@ -28,6 +28,7 @@ import { ProfileVisits } from '../components/ProfileVisits';
 import { ProfileConnections } from '../components/Connections';
 import { ProfileCharacter } from '../components/Character';
 import { ProfileLevels } from '../components/CommunityLevel';
+import { markSrc } from '../lib/assets';
 import { duelNeedsAction } from '../domain/play';
 import type { Badge } from '../domain/types';
 
@@ -77,7 +78,7 @@ export default function ProfilePage() {
     <div className="content-page profile-page">
       <div className="profile-banner">
         <div className="profile-banner-art">
-          <img src="/mark.svg" alt="" />
+          <img src={markSrc} alt="" />
         </div>
         <span>
           Os lugares guardam histórias.

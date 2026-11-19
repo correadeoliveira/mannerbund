@@ -7,6 +7,7 @@ import { createGuildExperience, experience } from './experience';
 import { seedGuilds, worldTime, type GuildWorld } from './world';
 import { GuildContext, type Runtime } from './context';
 import { visitorId } from './scripts';
+import { markSrc } from '../lib/assets';
 
 export function GuildProvider({ children }: { children: React.ReactNode }) {
   const [runtime, setRuntime] = useState<Runtime>();
@@ -90,7 +91,7 @@ export function GuildProvider({ children }: { children: React.ReactNode }) {
   if (!runtime)
     return (
       <main className="boot-screen">
-        <img src="/mark.svg" alt="Mannerbund" />
+        <img src={markSrc} alt="Mannerbund" />
         <p role="status">Abrindo as guildas…</p>
       </main>
     );

@@ -26,6 +26,7 @@ import { DemoPanel, PersonaPicker, PresenceMonitor } from './components/DemoPane
 import { MobileDock, MobileMenu } from './components/MobileNav';
 import { EventCard } from './components/EventCard';
 import { ConquestMoment } from './components/ConquestMoment';
+import { markSrc } from './lib/assets';
 
 export function AppRoot() {
   const [error, setError] = useState(''),
@@ -58,7 +59,7 @@ export function AppRoot() {
   if (error)
     return (
       <div className="boot-screen">
-        <img src="/mark.svg" alt="Mannerbund" />
+        <img src={markSrc} alt="Mannerbund" />
         <h1>Precisamos de um lugar para guardar suas histórias.</h1>
         <p>{error}</p>
         <Button onClick={() => setRetry((r) => r + 1)}>Tentar novamente</Button>
@@ -67,7 +68,7 @@ export function AppRoot() {
   if (!ready || !data)
     return (
       <div className="boot-screen">
-        <img src="/mark.svg" alt="Mannerbund" />
+        <img src={markSrc} alt="Mannerbund" />
         <span className="spinner" />
         <p>Preparando um lugar para você…</p>
       </div>
@@ -132,7 +133,7 @@ function Shell() {
       </a>
       <aside className="sidebar">
         <Link to="/mapa" className="brand">
-          <img src="/mark.svg" alt="" />
+          <img src={markSrc} alt="" />
           <span>
             Mannerbund<span>Seu lugar é com gente.</span>
           </span>
@@ -216,7 +217,7 @@ function Shell() {
       <div className="app-main">
         <header className="topbar">
           <Link to="/mapa" className="mobile-brand">
-            <img src="/mark.svg" alt="" />
+            <img src={markSrc} alt="" />
             <span>Mannerbund</span>
           </Link>
           <div className="topbar-location">

@@ -23,6 +23,7 @@ import { db, saveImage } from '../data/database';
 import type { Community, Emblem, User } from '../domain/types';
 import { useUI, act } from '../state/ui';
 import { accessibleAccent } from '../lib/colors';
+import { publicAsset } from '../lib/assets';
 
 export { useApp } from '../state/context';
 const emblems = {
@@ -68,14 +69,14 @@ export function Seal({
   );
 }
 export function Media({ src, alt, ...props }: ImgHTMLAttributes<HTMLImageElement>) {
-  const [url, setUrl] = useState(src?.startsWith('media:') ? undefined : src);
+  const [url, setUrl] = useState(src?.startsWith('media:') ? undefined : publicAsset(src ?? ''));
   const [failed, setFailed] = useState(false);
   useEffect(() => {
     let active = true,
       objectUrl: string | undefined;
     setFailed(false);
     if (!src?.startsWith('media:')) {
-      setUrl(src);
+      setUrl(publicAsset(src ?? ''));
       return;
     }
     setUrl(undefined);

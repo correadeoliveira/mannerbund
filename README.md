@@ -2,6 +2,15 @@
 
 Um protótipo local de comunidades que conquistam lugares pelo tempo que passam juntas. Interface em português, mapa real de São Paulo e identidade de bronze, pedra e cartografia.
 
+## App público
+
+O protótipo está disponível para qualquer pessoa em:
+
+- **Aplicativo principal:** <https://saif-cy.github.io/mannerbund/mapa>
+- **Guildas:** <https://saif-cy.github.io/mannerbund/>
+
+É uma demonstração estática: cada visitante tem seus próprios dados no navegador, sem cadastro nem sincronização entre pessoas. O mapa e a localização real funcionam porque o GitHub Pages entrega o app por HTTPS. Detalhes de build e limites em [DEPLOY.md](DEPLOY.md).
+
 ## Rodar no PC
 
 Requer Node.js 22.12+ e npm. Testado com Node 26.
